@@ -1,0 +1,11 @@
+A clustering mechanism is proposed to suggest items that are likely to follow such a purchase.
+
+Recommender systems build an observation history of entity relationship events, e.g. customer-product transactions. This can be fed to some function, e.g. a non-supervised neural network, to produce suggestions. This is known as a collaborative filtering approach. When entity properties are involved in the function, this is known as a content-based approach. This project aims to build on existing entity properties through collaborative filtering.
+
+    • Producing a simplistic end-to-end RS that may not address the project goal but will allow a throughput by which a high-level implementation can be tested
+    • Adding individual units of features to the RS to build up the implementation
+    • Both automated unit tests and end-to-end tests should be written in each developmental stage
+
+This project should use both CF and CB, where CB is utilised to pad information regarding the items to aid in developing relationships. 
+
+Online processing will process the user’s previous purchases against the model as per Linden et al. (2003).
