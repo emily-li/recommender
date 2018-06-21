@@ -10,7 +10,7 @@ public class SuccessiveBasedRecommender {
     }
 
     public void registerSuccessiveItem(String current, String... previous) throws NoSuchFieldException {
-        for (String item : getItems()) {
+        for (String item : getInventory()) {
             double likelihood = dataSet.get(current, item);
             if (Arrays.asList(previous).indexOf(item) >= 0) {
                 likelihood++;
@@ -25,7 +25,7 @@ public class SuccessiveBasedRecommender {
         return dataSet.get(item, previousItem);
     }
 
-    private String[] getItems() {
+    private String[] getInventory() {
         return dataSet.getHeader();
     }
 }

@@ -11,7 +11,7 @@ public class ItemMatrixTest {
     public static void setupBeforeClass() {
         header = new String[]{"fooItem", "barItem", "someItem", "otherItem"};
         final double[][] data = new double[header.length][header.length];
-        DataSet dataSet = new DataSet(header, data);
+        final DataSet dataSet = new DataSet(header, data);
         recommender = new SuccessiveBasedRecommender(dataSet);
     }
 
