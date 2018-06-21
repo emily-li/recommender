@@ -6,11 +6,11 @@ import com.liemily.data.UserHistory;
 import java.util.*;
 
 public class SuccessiveBasedRecommenderProvider {
-    public SuccessiveBasedRecommender getRecommender(Inventory inventory, UserHistory... userHistoryCollection) throws NoSuchFieldException {
-        String[] itemIds = inventory.getInventory();
+    public SuccessiveCollaborativeRecommender getRecommender(Inventory inventory, UserHistory... userHistoryCollection) throws NoSuchFieldException {
+        String[] itemIds = inventory.getIds();
 
         final DataSet dataSet = new DataSet(itemIds, new double[itemIds.length][itemIds.length]);
-        final SuccessiveBasedRecommender recommender = new SuccessiveBasedRecommender(dataSet);
+        final SuccessiveCollaborativeRecommender recommender = new SuccessiveCollaborativeRecommender(dataSet);
 
         Map<String, Collection<String[]>> itemSequences = new HashMap<>();
         for (UserHistory userHistory : userHistoryCollection) {

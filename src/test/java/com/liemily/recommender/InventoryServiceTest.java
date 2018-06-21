@@ -18,6 +18,11 @@ public class InventoryServiceTest {
     @Test
     public void testPopulateInventory() throws Exception {
         Inventory inventory = inventoryService.getInventory("inventoryTest.txt");
-        Assert.assertArrayEquals(new String[]{"a", "b", "c", "e", "d", "foo"}, inventory.getInventory());
+        Assert.assertArrayEquals(new String[]{"a", "b", "c", "e", "d", "foo"}, inventory.getIds());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDuplicatesThrown() throws Exception {
+        Inventory inventory = inventoryService.getInventory("duplicatesInventoryTest.txt");
     }
 }
