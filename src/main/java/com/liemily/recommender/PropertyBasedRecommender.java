@@ -2,6 +2,11 @@ package com.liemily.recommender;
 
 import com.liemily.data.Item;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
+
 public class PropertyBasedRecommender implements ItemBasedRecommender {
     private DataSet dataSet;
 
@@ -11,6 +16,14 @@ public class PropertyBasedRecommender implements ItemBasedRecommender {
 
     @Override
     public double getLikelihood(Item item, Item comparatorItem) {
-        return 0;
+        int[] likelihoodVector = new int[item.getProps().size()];
+
+        int idx = 0;
+        for (Map.Entry<String, String> prop : item.getProps().entrySet()) {
+            String comparatorProp = comparatorItem.getProps().get(prop.getKey());
+            likelihoodVector[idx] = prop.getValue().equalsIgnoreCase(comparatorProp) ? 1 : 0;
+            idx++;
+        }
+        return Arrays.stream(likelihoodVector).average().orElse(0);
     }
 }

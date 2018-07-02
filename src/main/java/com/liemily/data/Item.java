@@ -20,7 +20,7 @@ public class Item {
         return id;
     }
 
-    public Map<String, String> getProps() {
+    public TreeMap<String, String> getProps() {
         return props;
     }
 }
