@@ -12,7 +12,7 @@ public class SuccessiveCollaborativeRecommenderTest {
     @BeforeClass
     public static void setupBeforeClass() {
         inventory = new Inventory(new Item("fooItem"), new Item("barItem"), new Item("someItem"), new Item("otherItem"));
-        final double[][] data = new double[inventory.size()][inventory.size()];
+        final double[][] data = new double[inventory.getInventory().length][inventory.getInventory().length];
         final DataSet dataSet = new DataSet(inventory.getIds(), data);
         recommender = new SuccessiveCollaborativeRecommender(dataSet);
     }

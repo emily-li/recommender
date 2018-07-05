@@ -3,8 +3,6 @@ package com.liemily.recommender;
 import com.liemily.data.Inventory;
 import com.liemily.data.Item;
 
-import java.util.Arrays;
-
 /**
  * Created by Emily Li on 02/07/2018.
  */
@@ -18,11 +16,24 @@ public class HybridRecommender {
     }
 
     public Item getRecommendation(Item item) throws NoSuchFieldException {
-        double[] probabilities = new double[inventory.size()];
+        final double[] probabilities = new double[inventory.getInventory().length];
+
         for (int i = 0; i < recommenders.length; i++) {
             final double[] recommenderProbabilities = recommenders[i].getDataSet().get(item.getId());
-            probabilities[i] == null ? recommenderProbabilities : probabilities[i] * probabilities;
+
+            for (int j = 0; j < probabilities.length; j++) {
+                probabilities[j] = i == 0 ? recommenderProbabilities[i] : probabilities[j] * recommenderProbabilities[j];
+            }
         }
-        probabilities.
+
+        double max = -1;
+        int maxIdx = -1;
+        for (int i = 0; i < probabilities.length; i++) {
+            if (probabilities[i] > max) {
+                max = probabilities[i];
+                maxIdx = i;
+            }
+        }
+        return inventory.get(maxIdx);
     }
 }

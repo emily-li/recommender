@@ -4,9 +4,6 @@ import com.liemily.data.Item;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.Collections;
-import java.util.TreeMap;
-
 public class PropertyBasedRecommenderTest {
     private static PropertyBasedRecommender recommender;
 
@@ -16,9 +13,9 @@ public class PropertyBasedRecommenderTest {
     }
 
     @Test
-    public void testSimilarity() {
-        final TreeMap<String, String> props1 = new TreeMap<>(Collections.singletonMap("prop", "1"));
-        final TreeMap<String, String> props2 = new TreeMap<>(Collections.singletonMap("prop", "2"));
+    public void testSimilarity() throws Exception {
+        final int[] props1 = new int[]{1, 0};
+        final int[] props2 = new int[]{0, 1};
 
         final Item similarItem1 = new Item("1", props1);
         final Item similarItem2 = new Item("2", props1);

@@ -2,9 +2,13 @@ package com.liemily.data;
 
 public class Item {
     private final String id;
-    private final boolean[] propArray;
+    private final int[] propArray;
 
-    public Item(final String name, final boolean[] propArray) {
+    public Item(final String name) {
+        this(name, new int[0]);
+    }
+
+    public Item(final String name, final int[] propArray) {
         this.id = name;
         this.propArray = propArray;
     }
@@ -13,7 +17,7 @@ public class Item {
         return id;
     }
 
-    public boolean[] getPropArray() {
+    public int[] getPropArray() {
         return propArray;
     }
 }

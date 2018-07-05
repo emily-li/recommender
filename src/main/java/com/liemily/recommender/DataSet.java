@@ -32,7 +32,7 @@ public class DataSet {
         return header;
     }
 
-    private int getIndex(final String item) throws NoSuchFieldException {
+    public int getIndex(final String item) throws NoSuchFieldException {
         final int idx = Arrays.asList(header).indexOf(item);
         if (idx < 0) {
             throw new NoSuchFieldException(item);

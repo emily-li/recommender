@@ -11,15 +11,15 @@ public class Inventory {
         this.ids = Arrays.stream(inventory).map(Item::getId).toArray(String[]::new);
     }
 
+    public Item[] getInventory() {
+        return inventory;
+    }
+
     public String[] getIds() {
         return ids;
     }
 
     public Item get(int i) {
         return inventory[i];
-    }
-
-    public int size() {
-        return inventory.length;
     }
 }
