@@ -4,14 +4,10 @@ import com.liemily.data.Item;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
 
-public class PropertyBasedRecommender implements ItemBasedRecommender {
-    private DataSet dataSet;
-
+public class PropertyBasedRecommender extends ItemBasedRecommender {
     public PropertyBasedRecommender(DataSet dataSet) {
-        this.dataSet = dataSet;
+        super(dataSet);
     }
 
     @Override

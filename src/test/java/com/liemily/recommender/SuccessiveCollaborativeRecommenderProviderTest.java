@@ -7,19 +7,19 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SuccessiveCollaborativeRecommenderProviderTest {
-    private static SuccessiveBasedRecommenderProvider recommenderService;
+    private static SuccessiveBasedRecommenderProvider recommenderProvider;
     private static Inventory inventory;
 
     @BeforeClass
     public static void setupBeforeClass() {
-        recommenderService = new SuccessiveBasedRecommenderProvider();
+        recommenderProvider = new SuccessiveBasedRecommenderProvider();
         inventory = new Inventory(new Item("firstItem"), new Item("secondItem"), new Item("thirdItem"));
     }
 
     @Test
     public void testGetRecommenderGivenUserHistory() throws Exception {
         UserHistory userHistory = new UserHistory(inventory.get(0).getId(), inventory.get(1).getId());
-        SuccessiveCollaborativeRecommender recommender = recommenderService.getRecommender(inventory, userHistory);
+        SuccessiveCollaborativeRecommender recommender = recommenderProvider.getRecommender(inventory, userHistory);
 
         double expectedGreaterLikelihood = recommender.getLikelihood(inventory.get(1), inventory.get(0));
         double expectedLowerLikelihood1 = recommender.getLikelihood(inventory.get(2), inventory.get(0));
@@ -34,7 +34,7 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
         UserHistory userHistory1 = new UserHistory(inventory.get(0).getId(), inventory.get(1).getId());
         UserHistory userHistory2 = new UserHistory(inventory.get(0).getId(), inventory.get(1).getId(), inventory.get(2).getId());
 
-        SuccessiveCollaborativeRecommender recommender = recommenderService.getRecommender(inventory, userHistory1, userHistory2);
+        SuccessiveCollaborativeRecommender recommender = recommenderProvider.getRecommender(inventory, userHistory1, userHistory2);
 
         double expectedGreaterLikelihood1 = recommender.getLikelihood(inventory.get(1), inventory.get(0));
         double expectedGreaterLikelihood2 = recommender.getLikelihood(inventory.get(2), inventory.get(1));
