@@ -1,6 +1,7 @@
-a
-b
-c
-e
-d
-foo
+id,colour,size
+a,blue,
+b,,large
+c,black,small
+e,blue,large
+d,,
+foo,red,

@@ -1,26 +1,19 @@
 package com.liemily.data;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 public class Item {
     private final String id;
-    private final TreeMap<String, String> props;
+    private final boolean[] propArray;
 
-    public Item(String name) {
-        this(name, new TreeMap<>());
-    }
-
-    public Item(String name, TreeMap<String, String> props) {
+    public Item(final String name, final boolean[] propArray) {
         this.id = name;
-        this.props = props;
+        this.propArray = propArray;
     }
 
     public String getId() {
         return id;
     }
 
-    public TreeMap<String, String> getProps() {
-        return props;
+    public boolean[] getPropArray() {
+        return propArray;
     }
 }
