@@ -14,8 +14,8 @@ public class PropertyBasedRecommenderTest {
 
     @Test
     public void testSimilarity() throws Exception {
-        final int[] props1 = new int[]{1, 0};
-        final int[] props2 = new int[]{0, 1};
+        final double[] props1 = new double[]{1, 0};
+        final double[] props2 = new double[]{0, 1};
 
         final Item similarItem1 = new Item("1", props1);
         final Item similarItem2 = new Item("2", props1);

@@ -39,7 +39,7 @@ public class InventoryService {
         validateUniqueItem(uniqIds, id);
         validateItemLine(header, fields);
 
-        final int[] props = new int[fields.length - 1];
+        final double[] props = new double[fields.length - 1];
         for (int i = 0; i < props.length; i++) {
             props[i] = fields[i].isEmpty() ? 0 : 1;
         }
