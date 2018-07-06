@@ -8,15 +8,9 @@ public class VectorCalculator {
     }
 
     double cosineDistance(final double[] u, final double[] v) {
-        final double umu = Arrays.stream(u).average().orElse(0);
-        final double vmu = Arrays.stream(v).average().orElse(0);
-
-        final double[] nu = Arrays.stream(u).map(d -> d - umu).toArray();
-        final double[] nv = Arrays.stream(v).map(d -> d - vmu).toArray();
-
-        final double uv = Arrays.stream(multiply(nu, nv)).average().orElse(0);
-        final double uu = Arrays.stream(multiply(nu, nu)).average().orElse(0);
-        final double vv = Arrays.stream(multiply(nv, nv)).average().orElse(0);
+        final double uv = Arrays.stream(multiply(u, v)).average().orElse(0);
+        final double uu = Arrays.stream(multiply(u, u)).average().orElse(0);
+        final double vv = Arrays.stream(multiply(v, v)).average().orElse(0);
         return 1 - uv / Math.sqrt(uu * vv);
     }
 

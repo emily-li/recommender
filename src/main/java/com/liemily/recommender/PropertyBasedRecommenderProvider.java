@@ -16,9 +16,8 @@ public class PropertyBasedRecommenderProvider {
 
         final double[][] similarities = new double[items.length][items.length];
 
-        for (int i = 0; i < items.length; i++) { // for each item
+        for (int i = 0; i < items.length; i++) {
             final Item item = items[i];
-            // get the cosine similarity for every other item
             for (int j = i + 1; j < items.length - i; j++) {
                 final Item comparatorItem = items[j];
                 similarities[i][j] = vectorCalculator.cosineSimilarity(item.getPropArray(), comparatorItem.getPropArray());

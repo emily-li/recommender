@@ -27,14 +27,14 @@ public class PropertyBasedRecommenderProviderTest {
 
         DataSet actual = recommender.getDataSet();
         double[][] expected = new double[][]{
-                new double[]{0, 0.333, 0},
-                new double[]{0.333, 0, 0},
+                new double[]{0, 0.7071, 0},
+                new double[]{0.7071, 0, 0},
                 new double[]{0, 0, 0}
         };
 
         for (int i = 0; i < inventory.getIds().length; i++) {
             for (int j = 0; j < inventory.getIds().length; j++) {
-                assertEquals(expected[i][j], actual.get(inventory.getIds()[i], inventory.getIds()[j]), 0.0001);
+                assertEquals(expected[i][j], actual.get(inventory.getIds()[i], inventory.getIds()[j]), 0.00001);
             }
         }
     }
