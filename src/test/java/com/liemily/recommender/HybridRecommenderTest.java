@@ -1,37 +1,45 @@
-/*
-
 package com.liemily.recommender;
 
 import com.liemily.data.Inventory;
 import com.liemily.data.Item;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-import java.util.Arrays;
+import static org.mockito.Mockito.*;
 
-*/
+
 /**
  * Created by Emily Li on 02/07/2018.
- *//*
+ */
 
 
 public class HybridRecommenderTest {
     private HybridRecommender hybridRecommender;
+    private ItemBasedRecommender[] recommenders;
 
-    @Test
-    public void test() throws Exception {
-        final String[] header = new String[]{"item1", "item2"};
-        final ItemBasedRecommender recommender1 = new PropertyBasedRecommender();
-        final ItemBasedRecommender recommender2 = new SuccessiveCollaborativeRecommender(
-                new DataSet(header, new double[][]{
-                    new double[]{0.1, 0.5}, // probability of item1 -> item1 is 0.1, item1 -> item 2 is 0.5
-                    new double[]{0.2, 0.1}
-        }));
-        final ItemBasedRecommender[] recommenders = new ItemBasedRecommender[]{
-                recommender1, recommender2
+    @Before
+    public void setup() throws Exception {
+        recommenders = new ItemBasedRecommender[]{
+                mock(PropertyBasedRecommender.class),
+                mock(SuccessiveCollaborativeRecommender.class)
         };
 
-        hybridRecommender = new HybridRecommender(recommenders, new Inventory(Arrays.stream(header).map(Item::new).toArray(Item[]::new)));
-        hybridRecommender.getRecommendation(new Item(""));
+        DataSet dataSet = mock(DataSet.class);
+        when(dataSet.get(Mockito.anyString())).thenReturn(new double[]{0.0});
+
+        for (ItemBasedRecommender recommender : recommenders) {
+            when(recommender.getDataSet()).thenReturn(dataSet);
+        }
+        hybridRecommender = new HybridRecommender(recommenders, new Inventory(new Item("")));
+    }
+
+    @Test
+    public void testHybridRecommenderUsesSubRecommenders() throws Exception {
+        hybridRecommender.getRecommendation(new Item("item1"));
+
+        for (ItemBasedRecommender recommender : recommenders) {
+            verify(recommender, times(1)).getLikelihood(null, null);
+        }
     }
 }
-*/

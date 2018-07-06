@@ -1,29 +1,29 @@
 package com.liemily.recommender;
 
-import com.liemily.data.Item;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PropertyBasedRecommenderTest {
     private static PropertyBasedRecommender recommender;
+    private static DataSet dataSet;
 
     @BeforeClass
     public static void setupBeforeClass() {
-        recommender = new PropertyBasedRecommender(null);
+        dataSet = new DataSet(
+                new String[]{"item1", "item2", "item3"},
+                new double[][]{
+                        new double[]{1, 2, 3},
+                        new double[]{4, 5, 6},
+                        new double[]{7, 8, 9}
+                }
+        );
+        recommender = new PropertyBasedRecommender(dataSet);
     }
 
     @Test
-    public void testSimilarity() throws Exception {
-        final double[] props1 = new double[]{1, 0};
-        final double[] props2 = new double[]{0, 1};
-
-        final Item similarItem1 = new Item("1", props1);
-        final Item similarItem2 = new Item("2", props1);
-        final Item dissimilarItem = new Item("3", props2);
-
-        final double similarLikelihood = recommender.getLikelihood(similarItem1, similarItem2);
-        final double dissimilarLikelihood = recommender.getLikelihood(similarItem1, dissimilarItem);
-
-        assert similarLikelihood > dissimilarLikelihood;
+    public void testGetLikelihood() throws Exception {
+        final double actual = recommender.getLikelihood(dataSet.getHeader()[1], dataSet.getHeader()[2]);
+        Assert.assertEquals(5, actual, 0.0001);
     }
 }

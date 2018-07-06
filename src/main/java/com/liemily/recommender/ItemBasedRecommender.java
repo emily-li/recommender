@@ -1,7 +1,5 @@
 package com.liemily.recommender;
 
-import com.liemily.data.Item;
-
 public abstract class ItemBasedRecommender {
     private DataSet dataSet;
 
@@ -9,7 +7,7 @@ public abstract class ItemBasedRecommender {
         this.dataSet = dataSet;
     }
 
-    abstract double getLikelihood(Item item, Item comparatorItem) throws NoSuchFieldException;
+    abstract double getLikelihood(String item, String comparatorItem) throws NoSuchFieldException;
 
     public DataSet getDataSet() {
         return dataSet;

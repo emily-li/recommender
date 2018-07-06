@@ -19,29 +19,29 @@ public class SuccessiveCollaborativeRecommenderTest {
 
     @Test
     public void testSuccessivePurchaseLikelihoodIncreases() throws Exception {
-        final double previousLikelihood = recommender.getLikelihood(inventory.get(1), inventory.get(0));
+        final double previousLikelihood = recommender.getLikelihood(inventory.get(1).getId(), inventory.get(0).getId());
         recommender.registerSuccessiveItem(inventory.get(1).getId(), inventory.get(0).getId());
 
-        assert recommender.getLikelihood(inventory.get(1), inventory.get(0)) > previousLikelihood;
+        assert recommender.getLikelihood(inventory.get(1).getId(), inventory.get(0).getId()) > previousLikelihood;
     }
 
     @Test
     public void testNotSuccessivePurchaseLikelihoodDecreases() throws Exception {
         recommender.registerSuccessiveItem(inventory.get(1).getId(), inventory.get(0).getId());
-        final double previousLikelihood = recommender.getLikelihood(inventory.get(1), inventory.get(0));
+        final double previousLikelihood = recommender.getLikelihood(inventory.get(1).getId(), inventory.get(0).getId());
         recommender.registerSuccessiveItem(inventory.get(1).getId(), inventory.get(2).getId());
 
-        assert recommender.getLikelihood(inventory.get(1), inventory.get(0)) < previousLikelihood;
+        assert recommender.getLikelihood(inventory.get(1).getId(), inventory.get(0).getId()) < previousLikelihood;
     }
 
     @Test
     public void testRecentPurchaseLikelihoodIncreases() throws Exception {
-        final double previousLikelihood0 = recommender.getLikelihood(inventory.get(2), inventory.get(0));
-        final double previousLikelihood1 = recommender.getLikelihood(inventory.get(2), inventory.get(1));
+        final double previousLikelihood0 = recommender.getLikelihood(inventory.get(2).getId(), inventory.get(0).getId());
+        final double previousLikelihood1 = recommender.getLikelihood(inventory.get(2).getId(), inventory.get(1).getId());
 
         recommender.registerSuccessiveItem(inventory.get(2).getId(), inventory.get(1).getId(), inventory.get(0).getId());
 
-        assert recommender.getLikelihood(inventory.get(2), inventory.get(0)) > previousLikelihood0;
-        assert recommender.getLikelihood(inventory.get(2), inventory.get(1)) > previousLikelihood1;
+        assert recommender.getLikelihood(inventory.get(2).getId(), inventory.get(0).getId()) > previousLikelihood0;
+        assert recommender.getLikelihood(inventory.get(2).getId(), inventory.get(1).getId()) > previousLikelihood1;
     }
 }

@@ -15,6 +15,8 @@ public class HybridRecommender {
         this.inventory = inventory;
     }
 
+    // TODO: Do this at reconstruction
+
     public Item getRecommendation(Item item) throws NoSuchFieldException {
         final double[] probabilities = new double[inventory.getInventory().length];
 
@@ -22,6 +24,7 @@ public class HybridRecommender {
             final double[] recommenderProbabilities = recommenders[i].getDataSet().get(item.getId());
 
             for (int j = 0; j < probabilities.length; j++) {
+                recommenders[i].getLikelihood(item.getId(), inventory.get(j).getId());
                 probabilities[j] = i == 0 ? recommenderProbabilities[i] : probabilities[j] * recommenderProbabilities[j];
             }
         }

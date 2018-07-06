@@ -40,4 +40,8 @@ public class DataSet {
             return idx;
         }
     }
+
+    double[][] getData() {
+        return data;
+    }
 }

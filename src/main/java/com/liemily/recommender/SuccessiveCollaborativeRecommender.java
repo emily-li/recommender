@@ -1,7 +1,5 @@
 package com.liemily.recommender;
 
-import com.liemily.data.Item;
-
 import java.util.Arrays;
 
 public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
@@ -10,8 +8,8 @@ public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
     }
 
     @Override
-    public double getLikelihood(Item item, Item previousItem) throws NoSuchFieldException {
-        return getDataSet().get(item.getId(), previousItem.getId());
+    public double getLikelihood(String item, String previousItem) throws NoSuchFieldException {
+        return getDataSet().get(item, previousItem);
     }
 
     public void registerSuccessiveItem(String current, String... previous) throws NoSuchFieldException {

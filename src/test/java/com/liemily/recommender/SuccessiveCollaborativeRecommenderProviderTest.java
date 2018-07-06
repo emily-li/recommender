@@ -21,9 +21,9 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
         UserHistory userHistory = new UserHistory(inventory.get(0).getId(), inventory.get(1).getId());
         SuccessiveCollaborativeRecommender recommender = recommenderProvider.getRecommender(inventory, userHistory);
 
-        double expectedGreaterLikelihood = recommender.getLikelihood(inventory.get(1), inventory.get(0));
-        double expectedLowerLikelihood1 = recommender.getLikelihood(inventory.get(2), inventory.get(0));
-        double expectedLowerLikelihood2 = recommender.getLikelihood(inventory.get(0), inventory.get(2));
+        double expectedGreaterLikelihood = recommender.getLikelihood(inventory.get(1).getId(), inventory.get(0).getId());
+        double expectedLowerLikelihood1 = recommender.getLikelihood(inventory.get(2).getId(), inventory.get(0).getId());
+        double expectedLowerLikelihood2 = recommender.getLikelihood(inventory.get(0).getId(), inventory.get(2).getId());
 
         assert expectedGreaterLikelihood > expectedLowerLikelihood1;
         assert expectedGreaterLikelihood > expectedLowerLikelihood2;
@@ -36,9 +36,9 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
 
         SuccessiveCollaborativeRecommender recommender = recommenderProvider.getRecommender(inventory, userHistory1, userHistory2);
 
-        double expectedGreaterLikelihood1 = recommender.getLikelihood(inventory.get(1), inventory.get(0));
-        double expectedGreaterLikelihood2 = recommender.getLikelihood(inventory.get(2), inventory.get(1));
-        double expectedLowerLikelihood = recommender.getLikelihood(inventory.get(0), inventory.get(1));
+        double expectedGreaterLikelihood1 = recommender.getLikelihood(inventory.get(1).getId(), inventory.get(0).getId());
+        double expectedGreaterLikelihood2 = recommender.getLikelihood(inventory.get(2).getId(), inventory.get(1).getId());
+        double expectedLowerLikelihood = recommender.getLikelihood(inventory.get(0).getId(), inventory.get(1).getId());
 
         assert expectedGreaterLikelihood1 > expectedGreaterLikelihood2;
         assert expectedGreaterLikelihood2 > expectedLowerLikelihood;
