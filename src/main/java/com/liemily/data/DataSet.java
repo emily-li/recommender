@@ -1,4 +1,4 @@
-package com.liemily.recommender;
+package com.liemily.data;
 
 import java.util.Arrays;
 
@@ -6,7 +6,7 @@ public class DataSet {
     private final String[] header;
     private final double[][] data;
 
-    DataSet(String[] header, double[][] data) {
+    public DataSet(String[] header, double[][] data) {
         this.header = header;
         this.data = data;
     }
@@ -41,7 +41,7 @@ public class DataSet {
         }
     }
 
-    double[][] getData() {
+    public double[][] getData() {
         return data;
     }
 }

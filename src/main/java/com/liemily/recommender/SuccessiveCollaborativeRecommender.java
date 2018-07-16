@@ -1,15 +1,12 @@
 package com.liemily.recommender;
 
+import com.liemily.data.DataSet;
+
 import java.util.Arrays;
 
 public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
     public SuccessiveCollaborativeRecommender(DataSet dataSet) {
         super(dataSet);
-    }
-
-    @Override
-    public double getLikelihood(String item, String previousItem) throws NoSuchFieldException {
-        return getDataSet().get(item, previousItem);
     }
 
     public void registerSuccessiveItem(String current, String... previous) throws NoSuchFieldException {

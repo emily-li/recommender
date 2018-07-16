@@ -1,20 +1,15 @@
 package com.liemily.recommender;
 
+import com.liemily.data.DataSet;
 import com.liemily.data.Inventory;
 import com.liemily.data.Item;
 import com.liemily.math.VectorCalculator;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class PropertyBasedRecommenderProviderTest {
-    private static PropertyBasedRecommenderProvider provider;
-
-    @BeforeClass
-    public static void setupBeforeClass() {
-        provider = new PropertyBasedRecommenderProvider(new VectorCalculator());
-    }
+    private PropertyBasedRecommenderProvider provider;
 
     @Test
     public void testRecommenderGivenInventoryProperties() throws Exception {
@@ -23,7 +18,8 @@ public class PropertyBasedRecommenderProviderTest {
                 new Item("item2", new double[]{1, 0, 0}),
                 new Item("item3", new double[]{0, 0, 1})
         );
-        PropertyBasedRecommender recommender = provider.getRecommender(inventory);
+        provider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
+        ItemBasedRecommender recommender = provider.getRecommender();
 
         DataSet actual = recommender.getDataSet();
         double[][] expected = new double[][]{

@@ -1,11 +1,12 @@
 package com.liemily.recommender;
 
+import com.liemily.data.DataSet;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class PropertyBasedRecommenderTest {
-    private static PropertyBasedRecommender recommender;
+public class ItemBasedRecommenderTest {
+    private static ItemBasedRecommender recommender;
     private static DataSet dataSet;
 
     @BeforeClass
@@ -18,12 +19,12 @@ public class PropertyBasedRecommenderTest {
                         new double[]{7, 8, 9}
                 }
         );
-        recommender = new PropertyBasedRecommender(dataSet);
+        recommender = new ItemBasedRecommender(dataSet);
     }
 
     @Test
-    public void testGetLikelihood() throws Exception {
-        final double actual = recommender.getLikelihood(dataSet.getHeader()[1], dataSet.getHeader()[2]);
-        Assert.assertEquals(5, actual, 0.0001);
+    public void testGetRecommendation() throws Exception {
+        final String actual = recommender.getRecommendation(dataSet.getHeader()[2]);
+        Assert.assertEquals("item3", actual);
     }
 }

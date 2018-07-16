@@ -1,17 +1,20 @@
 package com.liemily.recommender;
 
+import com.liemily.data.DataSet;
 import com.liemily.data.Inventory;
 import com.liemily.data.Item;
 import com.liemily.math.VectorCalculator;
 
-public class PropertyBasedRecommenderProvider {
-    private VectorCalculator vectorCalculator;
+public class PropertyBasedRecommenderProvider implements RecommenderProvider {
+    private final VectorCalculator vectorCalculator;
+    private final Inventory inventory;
 
-    public PropertyBasedRecommenderProvider(VectorCalculator vectorCalculator) {
+    public PropertyBasedRecommenderProvider(VectorCalculator vectorCalculator, Inventory inventory) {
         this.vectorCalculator = vectorCalculator;
+        this.inventory = inventory;
     }
 
-    public PropertyBasedRecommender getRecommender(Inventory inventory) {
+    public ItemBasedRecommender getRecommender() {
         final Item[] items = inventory.getInventory();
 
         final double[][] similarities = new double[items.length][items.length];
@@ -26,6 +29,6 @@ public class PropertyBasedRecommenderProvider {
         }
 
         final DataSet dataSet = new DataSet(inventory.getIds(), similarities);
-        return new PropertyBasedRecommender(dataSet);
+        return new ItemBasedRecommender(dataSet);
     }
 }

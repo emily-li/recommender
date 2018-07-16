@@ -1,5 +1,6 @@
 package com.liemily.recommender;
 
+import com.liemily.data.DataSet;
 import com.liemily.data.Inventory;
 import com.liemily.data.Item;
 import org.junit.BeforeClass;
@@ -19,29 +20,33 @@ public class SuccessiveCollaborativeRecommenderTest {
 
     @Test
     public void testSuccessivePurchaseLikelihoodIncreases() throws Exception {
-        final double previousLikelihood = recommender.getLikelihood(inventory.get(1).getId(), inventory.get(0).getId());
+        final double previousLikelihood = getLikelihood(recommender, inventory.get(1).getId(), inventory.get(0).getId());
         recommender.registerSuccessiveItem(inventory.get(1).getId(), inventory.get(0).getId());
 
-        assert recommender.getLikelihood(inventory.get(1).getId(), inventory.get(0).getId()) > previousLikelihood;
+        assert getLikelihood(recommender, inventory.get(1).getId(), inventory.get(0).getId()) > previousLikelihood;
     }
 
     @Test
     public void testNotSuccessivePurchaseLikelihoodDecreases() throws Exception {
         recommender.registerSuccessiveItem(inventory.get(1).getId(), inventory.get(0).getId());
-        final double previousLikelihood = recommender.getLikelihood(inventory.get(1).getId(), inventory.get(0).getId());
+        final double previousLikelihood = getLikelihood(recommender, inventory.get(1).getId(), inventory.get(0).getId());
         recommender.registerSuccessiveItem(inventory.get(1).getId(), inventory.get(2).getId());
 
-        assert recommender.getLikelihood(inventory.get(1).getId(), inventory.get(0).getId()) < previousLikelihood;
+        assert getLikelihood(recommender, inventory.get(1).getId(), inventory.get(0).getId()) < previousLikelihood;
     }
 
     @Test
     public void testRecentPurchaseLikelihoodIncreases() throws Exception {
-        final double previousLikelihood0 = recommender.getLikelihood(inventory.get(2).getId(), inventory.get(0).getId());
-        final double previousLikelihood1 = recommender.getLikelihood(inventory.get(2).getId(), inventory.get(1).getId());
+        final double previousLikelihood0 = getLikelihood(recommender, inventory.get(2).getId(), inventory.get(0).getId());
+        final double previousLikelihood1 = getLikelihood(recommender, inventory.get(2).getId(), inventory.get(1).getId());
 
         recommender.registerSuccessiveItem(inventory.get(2).getId(), inventory.get(1).getId(), inventory.get(0).getId());
 
-        assert recommender.getLikelihood(inventory.get(2).getId(), inventory.get(0).getId()) > previousLikelihood0;
-        assert recommender.getLikelihood(inventory.get(2).getId(), inventory.get(1).getId()) > previousLikelihood1;
+        assert getLikelihood(recommender, inventory.get(2).getId(), inventory.get(0).getId()) > previousLikelihood0;
+        assert getLikelihood(recommender, inventory.get(2).getId(), inventory.get(1).getId()) > previousLikelihood1;
+    }
+
+    private double getLikelihood(ItemBasedRecommender recommender, String item, String previousItem) throws NoSuchFieldException {
+        return recommender.getDataSet().get(item, previousItem);
     }
 }
