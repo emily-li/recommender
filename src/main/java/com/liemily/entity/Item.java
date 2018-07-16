@@ -1,4 +1,4 @@
-package com.liemily.data;
+package com.liemily.entity;
 
 public class Item {
     private final String id;

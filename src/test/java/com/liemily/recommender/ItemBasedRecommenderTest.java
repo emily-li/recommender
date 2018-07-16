@@ -1,6 +1,5 @@
 package com.liemily.recommender;
 
-import com.liemily.data.DataSet;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.liemily.data;
+package com.liemily.entity;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

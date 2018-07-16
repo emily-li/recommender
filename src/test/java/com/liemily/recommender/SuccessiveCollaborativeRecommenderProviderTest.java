@@ -1,8 +1,8 @@
 package com.liemily.recommender;
 
-import com.liemily.data.Inventory;
-import com.liemily.data.Item;
-import com.liemily.data.UserHistory;
+import com.liemily.entity.Inventory;
+import com.liemily.entity.Item;
+import com.liemily.entity.UserHistory;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

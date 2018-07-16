@@ -1,7 +1,5 @@
 package com.liemily.recommender;
 
-import com.liemily.data.DataSet;
-
 import java.util.Arrays;
 
 public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {

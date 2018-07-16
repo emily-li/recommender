@@ -1,7 +1,6 @@
 package com.liemily.recommender;
 
-import com.liemily.data.DataSet;
-import com.liemily.data.Inventory;
+import com.liemily.entity.Inventory;
 import com.liemily.math.MatrixCalculator;
 
 public class HybridRecommenderProvider implements RecommenderProvider {

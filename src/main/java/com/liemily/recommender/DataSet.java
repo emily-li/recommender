@@ -1,4 +1,4 @@
-package com.liemily.data;
+package com.liemily.recommender;
 
 import java.util.Arrays;
 

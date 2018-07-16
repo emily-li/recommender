@@ -1,8 +1,7 @@
 package com.liemily.recommender;
 
-import com.liemily.data.DataSet;
-import com.liemily.data.Inventory;
-import com.liemily.data.Item;
+import com.liemily.entity.Inventory;
+import com.liemily.entity.Item;
 import com.liemily.math.MatrixCalculator;
 import org.junit.BeforeClass;
 import org.junit.Test;

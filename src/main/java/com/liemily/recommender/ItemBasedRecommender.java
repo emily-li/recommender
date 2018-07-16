@@ -1,7 +1,5 @@
 package com.liemily.recommender;
 
-import com.liemily.data.DataSet;
-
 public class ItemBasedRecommender {
     private DataSet dataSet;
 
