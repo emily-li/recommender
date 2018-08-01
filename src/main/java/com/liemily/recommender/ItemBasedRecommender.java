@@ -1,14 +1,14 @@
 package com.liemily.recommender;
 
 public class ItemBasedRecommender {
-    private DataSet dataSet;
+    private final DataSet dataSet;
 
     public ItemBasedRecommender(DataSet dataSet) {
         this.dataSet = dataSet;
     }
 
     public String getRecommendation(String item) throws NoSuchFieldException {
-        final double probabilities[] = dataSet.get(item);
+        final double[] probabilities = dataSet.get(item);
 
         double max = -1;
         int maxIdx = -1;
