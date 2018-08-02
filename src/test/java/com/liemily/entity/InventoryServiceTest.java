@@ -14,17 +14,17 @@ public class InventoryServiceTest {
 
     @Test
     public void testPopulateInventory() throws Exception {
-        Inventory inventory = inventoryService.getInventory("inventoryTest.txt");
+        Inventory inventory = inventoryService.getInventory("src/test/resources/inventoryTest.txt");
         Assert.assertArrayEquals(new String[]{"a", "b", "c", "e", "d", "foo"}, inventory.getIds());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testDuplicatesThrown() throws Exception {
-        inventoryService.getInventory("duplicatesInventoryTest.txt");
+        inventoryService.getInventory("src/test/resources/duplicatesInventoryTest.txt");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidNumPropertiesThrown() throws Exception {
-        inventoryService.getInventory("invalidNumFields.txt");
+        inventoryService.getInventory("src/test/resources/invalidNumFields.txt");
     }
 }

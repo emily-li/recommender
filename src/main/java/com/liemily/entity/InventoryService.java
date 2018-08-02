@@ -1,7 +1,6 @@
 package com.liemily.entity;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,12 +10,12 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class InventoryService {
-    public Inventory getInventory(final String file) throws IOException, URISyntaxException {
+    public Inventory getInventory(final String file) throws IOException {
         return new Inventory(readFile(file));
     }
 
-    private Item[] readFile(final String file) throws IOException, URISyntaxException {
-        final Path path = Paths.get(ClassLoader.getSystemResource(file).toURI());
+    private Item[] readFile(final String file) throws IOException {
+        final Path path = Paths.get(file);
 
         final Set<String> uniqIds = new HashSet<>();
         try (final Stream<String> dataStream = Files.lines(path)) {
