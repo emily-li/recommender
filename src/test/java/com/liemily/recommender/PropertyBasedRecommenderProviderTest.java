@@ -8,7 +8,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class PropertyBasedRecommenderProviderTest {
-    private PropertyBasedRecommenderProvider provider;
 
     @Test
     public void testRecommenderGivenInventoryProperties() throws Exception {
@@ -17,7 +16,7 @@ public class PropertyBasedRecommenderProviderTest {
                 new Item("item2", new double[]{1, 0, 0}),
                 new Item("item3", new double[]{0, 0, 1})
         );
-        provider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
+        PropertyBasedRecommenderProvider provider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
         ItemBasedRecommender recommender = provider.getRecommender();
 
         DataSet actual = recommender.getDataSet();

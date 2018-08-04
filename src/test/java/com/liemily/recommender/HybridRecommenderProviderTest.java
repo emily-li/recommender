@@ -12,7 +12,6 @@ import static org.junit.Assert.assertEquals;
 public class HybridRecommenderProviderTest {
     private static Inventory inventory;
     private static ItemBasedRecommender[] recommenders;
-    private HybridRecommenderProvider recommenderProvider;
 
     @BeforeClass
     public static void setupBeforeClass() {
@@ -32,7 +31,7 @@ public class HybridRecommenderProviderTest {
 
     @Test
     public void testRecommendationFromHybrid() throws Exception {
-        recommenderProvider = new HybridRecommenderProvider(inventory, recommenders, new MatrixCalculator());
+        HybridRecommenderProvider recommenderProvider = new HybridRecommenderProvider(inventory, recommenders, new MatrixCalculator());
         String rec = recommenderProvider.getRecommender().getRecommendation(inventory.get(0).getId());
         assertEquals(inventory.get(1).getId(), rec);
     }

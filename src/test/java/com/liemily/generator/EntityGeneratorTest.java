@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 
 public class EntityGeneratorTest {
-    private static EntityGenerator entityGenerator;
 
     private static int numItems;
     private static int numUsers;
@@ -23,7 +22,7 @@ public class EntityGeneratorTest {
 
     @BeforeClass
     public static void setupBeforeClass() {
-        entityGenerator = new EntityGenerator(new Random());
+        EntityGenerator entityGenerator = new EntityGenerator(new Random());
         numItems = 100;
         numUsers = 100;
         inventory = entityGenerator.generateInventory(numItems, 1000);
