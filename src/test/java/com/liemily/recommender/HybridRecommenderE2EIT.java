@@ -39,4 +39,6 @@ public class HybridRecommenderE2EIT {
 
         hybridRecommender.getRecommendation(inventory.get(0).getId());
     }
+
+
 }

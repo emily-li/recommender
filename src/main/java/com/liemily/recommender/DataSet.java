@@ -24,10 +24,8 @@ public class DataSet {
         return data.getCol(idx);
     }
 
-    public void set(final String row, final String col, final double val) throws NoSuchFieldException {
-        final int rowIdx = getIndex(row);
-        final int colIdx = getIndex(col);
-        data.set(rowIdx, colIdx, val);
+    public void set(final int row, final int col, final double val) {
+        data.set(row, col, val);
     }
 
     public String[] getHeader() {

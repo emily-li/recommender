@@ -8,14 +8,19 @@ public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
     }
 
     public void registerSuccessiveItem(String current, String... previous) throws NoSuchFieldException {
-        for (String item : getDataSet().getHeader()) {
+        final String[] header = getDataSet().getHeader();
+        final int currentItemIdx = getDataSet().getIndex(current);
+
+        for (int i = 0; i < header.length; i++) {
+            final String item = header[i];
+
             double likelihood = getDataSet().get(current, item);
             if (Arrays.asList(previous).indexOf(item) >= 0) {
                 likelihood++;
             } else {
                 likelihood--;
             }
-            getDataSet().set(item, current, likelihood);
+            getDataSet().set(currentItemIdx, i, likelihood);
         }
     }
 }
