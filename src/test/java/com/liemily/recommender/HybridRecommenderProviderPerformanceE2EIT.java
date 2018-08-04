@@ -22,7 +22,7 @@ public class HybridRecommenderProviderPerformanceE2EIT {
     @BeforeClass
     public static void setupBeforeClass() {
         timeout = 60000;
-        inventory = new EntityGenerator(new Random()).generateInventory(10000, 100);
+        inventory = new EntityGenerator(new Random()).generateInventory(10000, 20);
         matrixCalculator = new MatrixCalculator();
 
         propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
