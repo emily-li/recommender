@@ -1,35 +1,52 @@
 package com.liemily.math;
 
-import java.util.Arrays;
+import org.ejml.simple.SimpleMatrix;
+
+import java.util.Iterator;
 
 public class Matrix {
-    private final double[][] data;
+    private final SimpleMatrix matrix;
 
-    public Matrix(final double[][] data) {
-        this.data = data;
+    public Matrix(final double[][] matrix) {
+        this.matrix = new SimpleMatrix(matrix);
+    }
+
+    public Matrix(final SimpleMatrix matrix) {
+        this.matrix = matrix;
     }
 
     public double get(final int row, final int col) {
-        return data[row][col];
+        return matrix.get(row, col);
     }
 
     public int width() {
-        return data.length;
+        return matrix.numCols();
     }
 
     public int height() {
-        return data[0].length;
+        return matrix.numRows();
     }
 
-    public double[] getCol(int i) {
-        return Arrays.stream(data).mapToDouble(line -> line[i]).toArray();
+    public double[] getCol(int colIdx) {
+        final SimpleMatrix simpleCol = matrix.cols(colIdx, colIdx + 1);
+        final Iterator<Double> colIterator = simpleCol.iterator(true, 0, 0, simpleCol.numRows() - 1, 0);
+
+        final double[] colArray = new double[simpleCol.numRows()];
+        for (int i = 0; colIterator.hasNext(); i++) {
+            colArray[i] = colIterator.next();
+        }
+        return colArray;
     }
 
     public void set(final int colIdx, final int rowIdx, final double val) {
-        data[rowIdx][colIdx] = val;
+        matrix.set(rowIdx, colIdx, val);
     }
 
     public void set(final int i, final double[] row) {
-        data[i] = row;
+        matrix.setRow(i, 0, row);
+    }
+
+    public SimpleMatrix getMatrix() {
+        return matrix;
     }
 }
