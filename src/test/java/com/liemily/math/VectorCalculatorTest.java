@@ -3,8 +3,6 @@ package com.liemily.math;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.ojalgo.matrix.BasicMatrix;
-import org.ojalgo.matrix.PrimitiveMatrix;
 
 public class VectorCalculatorTest {
     private static VectorCalculator calculator;
@@ -34,15 +32,15 @@ public class VectorCalculatorTest {
 
     @Test
     public void testSameVectorMultiply() {
-        final BasicMatrix product = calculator.multiply(new double[]{0, 0, 1}, new double[]{0, 0, 1});
-        final BasicMatrix expected = PrimitiveMatrix.FACTORY.rows(new double[]{0, 0, 1});
-        assert expected.equals(product);
+        final double[] product = calculator.multiply(new double[]{0, 0, 1}, new double[]{0, 0, 1});
+        final double[] expected = new double[]{0, 0, 1};
+        Assert.assertArrayEquals(expected, product, 0.0);
     }
 
     @Test
     public void testDiffVectorMultiply() {
-        final BasicMatrix product = calculator.multiply(new double[]{1, 0, 1}, new double[]{0, 0, 1});
-        final BasicMatrix expected = PrimitiveMatrix.FACTORY.rows(new double[]{0, 0, 1});
-        assert expected.equals(product);
+        final double[] product = calculator.multiply(new double[]{1, 0, 1}, new double[]{0, 0, 1});
+        final double[] expected = new double[]{0, 0, 1};
+        Assert.assertArrayEquals(expected, product, 0.0);
     }
 }

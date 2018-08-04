@@ -1,25 +1,9 @@
 package com.liemily.math;
 
-import org.ojalgo.function.aggregator.Aggregator;
-import org.ojalgo.matrix.BasicMatrix;
-import org.ojalgo.matrix.PrimitiveMatrix;
+import java.util.Arrays;
 
 public class VectorCalculator {
     public double cosineSimilarity(final double[] v1, final double[] v2) {
-        return 1 - cosineDistance(v1, v2);
-    }
-
-    double cosineDistance(final double[] u, final double[] v) {
-        final double uv = multiply(u, v).aggregateAll(Aggregator.AVERAGE).doubleValue();
-        final double uu = multiply(u, u).aggregateAll(Aggregator.AVERAGE).doubleValue();
-        final double vv = multiply(v, v).aggregateAll(Aggregator.AVERAGE).doubleValue();
-        return 1 - uv / Math.sqrt(uu * vv);
-    }
-
-    BasicMatrix multiply(final double[] v1, final double[] v2) {
-        return PrimitiveMatrix.FACTORY.rows(v1).multiplyElements(PrimitiveMatrix.FACTORY.rows(v2));
-    }
-/*    public double cosineSimilarity(final double[] v1, final double[] v2) {
         return 1 - cosineDistance(v1, v2);
     }
 
@@ -36,5 +20,5 @@ public class VectorCalculator {
             product[i] = v1[i] * v2[i];
         }
         return product;
-    }*/
+    }
 }

@@ -20,11 +20,9 @@ public class PropertyBasedRecommenderProvider implements RecommenderProvider {
 
         for (int i = 0; i < items.length; i++) {
             final Item item = items[i];
-            final double[] itemProps = item.getPropArray();
-
             for (int j = i + 1; j < items.length - i; j++) {
                 final Item comparatorItem = items[j];
-                similarities[i][j] = vectorCalculator.cosineSimilarity(itemProps, comparatorItem.getPropArray()); // TODO: Take this out of double for, optimise
+                similarities[i][j] = vectorCalculator.cosineSimilarity(item.getPropArray(), comparatorItem.getPropArray()); // TODO: Take this out of double for, optimise
                 similarities[j][i] = similarities[i][j];
             }
         }
