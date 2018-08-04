@@ -24,10 +24,6 @@ public class DataSet {
         return data.getCol(idx);
     }
 
-    public void set(final int row, final int col, final double val) {
-        data.set(row, col, val);
-    }
-
     public String[] getHeader() {
         return header;
     }
