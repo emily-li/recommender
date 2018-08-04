@@ -8,14 +8,13 @@ public class PropertyBasedRecommenderProvider implements RecommenderProvider {
     private final VectorCalculator vectorCalculator;
     private final Inventory inventory;
 
-    public PropertyBasedRecommenderProvider(VectorCalculator vectorCalculator, Inventory inventory) {
+    public PropertyBasedRecommenderProvider(final VectorCalculator vectorCalculator, final Inventory inventory) {
         this.vectorCalculator = vectorCalculator;
         this.inventory = inventory;
     }
 
     public ItemBasedRecommender getRecommender() {
         final Item[] items = inventory.getInventory();
-
         final double[][] similarities = new double[items.length][items.length];
 
         for (int i = 0; i < items.length; i++) {

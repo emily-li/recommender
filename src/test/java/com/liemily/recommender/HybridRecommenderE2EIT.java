@@ -1,14 +1,10 @@
-package com.liemily.e2e;
+package com.liemily.recommender;
 
 import com.liemily.entity.Inventory;
 import com.liemily.entity.UserHistory;
 import com.liemily.generator.EntityGenerator;
 import com.liemily.math.MatrixCalculator;
 import com.liemily.math.VectorCalculator;
-import com.liemily.recommender.HybridRecommenderProvider;
-import com.liemily.recommender.ItemBasedRecommender;
-import com.liemily.recommender.PropertyBasedRecommenderProvider;
-import com.liemily.recommender.SuccessiveCollaborativeRecommenderProvider;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -35,8 +31,10 @@ public class HybridRecommenderE2EIT {
     }
 
     @Test
-    public void testHybridRecommenderPrecisionHigherThanRandom() {
+    public void testHybridRecommenderPrecisionHigherThanRandom() throws Exception {
         // precision = #true_positives / (#true_positives + #false_positives)
         // independent samples t-test over 100 tests
+
+        hybridRecommender.getRecommendation(inventory.get(0).getId());
     }
 }

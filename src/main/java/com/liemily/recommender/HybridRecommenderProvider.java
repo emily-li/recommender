@@ -8,7 +8,7 @@ public class HybridRecommenderProvider implements RecommenderProvider {
     private final ItemBasedRecommender recommenders[];
     private final MatrixCalculator matrixCalculator;
 
-    public HybridRecommenderProvider(Inventory inventory, ItemBasedRecommender[] recommenders, MatrixCalculator matrixCalculator) {
+    public HybridRecommenderProvider(final Inventory inventory, final ItemBasedRecommender[] recommenders, final MatrixCalculator matrixCalculator) {
         this.inventory = inventory;
         this.recommenders = recommenders;
         this.matrixCalculator = matrixCalculator;
@@ -16,14 +16,14 @@ public class HybridRecommenderProvider implements RecommenderProvider {
 
     @Override
     public ItemBasedRecommender getRecommender() {
-        DataSet dataSet = combineDatasets();
+        final DataSet dataSet = combineDatasets();
         return new ItemBasedRecommender(dataSet);
     }
 
     private DataSet combineDatasets() {
         double[][] probabilities = null;
-        for (ItemBasedRecommender recommender : recommenders) {
-            DataSet dataSet = recommender.getDataSet();
+        for (final ItemBasedRecommender recommender : recommenders) {
+            final DataSet dataSet = recommender.getDataSet();
             probabilities = probabilities == null ? dataSet.getData() : matrixCalculator.multiply(probabilities, dataSet.getData());
         }
         return new DataSet(inventory.getIds(), probabilities);
