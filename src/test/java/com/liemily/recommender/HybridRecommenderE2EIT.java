@@ -6,6 +6,7 @@ import com.liemily.generator.EntityGenerator;
 import com.liemily.math.MatrixCalculator;
 import com.liemily.math.VectorCalculator;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Random;
@@ -13,6 +14,7 @@ import java.util.Random;
 /**
  * Created by Emily Li on 03/08/2018.
  */
+@Ignore
 public class HybridRecommenderE2EIT {
     private static Inventory inventory;
     private static ItemBasedRecommender hybridRecommender;

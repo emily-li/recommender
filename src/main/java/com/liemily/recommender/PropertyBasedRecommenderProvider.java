@@ -2,6 +2,7 @@ package com.liemily.recommender;
 
 import com.liemily.entity.Inventory;
 import com.liemily.entity.Item;
+import com.liemily.math.Matrix;
 import com.liemily.math.VectorCalculator;
 
 public class PropertyBasedRecommenderProvider implements RecommenderProvider {
@@ -26,7 +27,7 @@ public class PropertyBasedRecommenderProvider implements RecommenderProvider {
             }
         }
 
-        final DataSet dataSet = new DataSet(inventory.getIds(), similarities);
+        final DataSet dataSet = new DataSet(inventory.getIds(), new Matrix(similarities));
         return new ItemBasedRecommender(dataSet);
     }
 }

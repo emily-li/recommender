@@ -1,6 +1,7 @@
 package com.liemily.recommender;
 
 import com.liemily.entity.Inventory;
+import com.liemily.math.Matrix;
 import com.liemily.math.MatrixCalculator;
 
 public class HybridRecommenderProvider implements RecommenderProvider {
@@ -21,7 +22,7 @@ public class HybridRecommenderProvider implements RecommenderProvider {
     }
 
     private DataSet combineDatasets() {
-        double[][] probabilities = null;
+        Matrix probabilities = null;
         for (final ItemBasedRecommender recommender : recommenders) {
             final DataSet dataSet = recommender.getDataSet();
             probabilities = probabilities == null ? dataSet.getData() : matrixCalculator.multiply(probabilities, dataSet.getData());

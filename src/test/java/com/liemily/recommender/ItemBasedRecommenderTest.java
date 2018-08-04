@@ -1,5 +1,6 @@
 package com.liemily.recommender;
 
+import com.liemily.math.Matrix;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,11 +13,11 @@ public class ItemBasedRecommenderTest {
     public static void setupBeforeClass() {
         dataSet = new DataSet(
                 new String[]{"item1", "item2", "item3"},
-                new double[][]{
+                new Matrix(new double[][]{
                         new double[]{1, 2, 3},
                         new double[]{4, 5, 6},
                         new double[]{7, 8, 9}
-                }
+                })
         );
         recommender = new ItemBasedRecommender(dataSet);
     }

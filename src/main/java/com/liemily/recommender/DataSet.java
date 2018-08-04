@@ -1,12 +1,14 @@
 package com.liemily.recommender;
 
+import com.liemily.math.Matrix;
+
 import java.util.Arrays;
 
 public class DataSet {
     private final String[] header;
-    private final double[][] data;
+    private final Matrix data;
 
-    public DataSet(String[] header, double[][] data) {
+    public DataSet(final String[] header, final Matrix data) {
         this.header = header;
         this.data = data;
     }
@@ -14,18 +16,18 @@ public class DataSet {
     public double get(final String col, final String row) throws NoSuchFieldException {
         final int colIdx = getIndex(col);
         final int rowIdx = getIndex(row);
-        return data[colIdx][rowIdx];
+        return data.get(colIdx, rowIdx);
     }
 
     public double[] get(String item) throws NoSuchFieldException {
         final int idx = getIndex(item);
-        return Arrays.stream(data).mapToDouble(line -> line[idx]).toArray();
+        return data.getCol(idx);
     }
 
-    public void set(final String col, String row, double val) throws NoSuchFieldException {
-        final int colIdx = getIndex(col);
+    public void set(final String row, final String col, final double val) throws NoSuchFieldException {
         final int rowIdx = getIndex(row);
-        data[colIdx][rowIdx] = val;
+        final int colIdx = getIndex(col);
+        data.set(rowIdx, colIdx, val);
     }
 
     public String[] getHeader() {
@@ -41,7 +43,7 @@ public class DataSet {
         }
     }
 
-    public double[][] getData() {
+    public Matrix getData() {
         return data;
     }
 }

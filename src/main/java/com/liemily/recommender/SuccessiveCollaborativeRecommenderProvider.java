@@ -3,6 +3,7 @@ package com.liemily.recommender;
 import com.liemily.entity.Inventory;
 import com.liemily.entity.UserHistory;
 import com.liemily.exception.RecommenderException;
+import com.liemily.math.Matrix;
 
 import java.util.*;
 
@@ -10,18 +11,15 @@ public class SuccessiveCollaborativeRecommenderProvider implements RecommenderPr
     private final Inventory inventory;
     private final UserHistory[] userHistories;
 
-    public SuccessiveCollaborativeRecommenderProvider(Inventory inventory, UserHistory... userHistories) {
+    public SuccessiveCollaborativeRecommenderProvider(final Inventory inventory, final UserHistory... userHistories) {
         this.inventory = inventory;
         this.userHistories = userHistories;
     }
 
     public SuccessiveCollaborativeRecommender getRecommender() throws RecommenderException {
-        String[] itemIds = inventory.getIds();
+        final String[] itemIds = inventory.getIds();
 
-        final DataSet dataSet = new DataSet(itemIds, new double[itemIds.length][itemIds.length]);
-        final SuccessiveCollaborativeRecommender recommender = new SuccessiveCollaborativeRecommender(dataSet);
-
-        Map<String, Collection<String[]>> itemSequences = new HashMap<>();
+        final Map<String, Collection<String[]>> itemSequences = new HashMap<>();
         for (UserHistory userHistory : userHistories) {
             List<String> purchaseHistory = userHistory.getPurchaseHistory();
 
@@ -31,13 +29,16 @@ public class SuccessiveCollaborativeRecommenderProvider implements RecommenderPr
             }
         }
 
+        final DataSet dataSet = new DataSet(itemIds, new Matrix(new double[itemIds.length][itemIds.length]));
+        final SuccessiveCollaborativeRecommender recommender = new SuccessiveCollaborativeRecommender(dataSet);
+
         try {
-            for (Map.Entry<String, Collection<String[]>> purchaseSequences : itemSequences.entrySet()) {
-                for (String[] seq : purchaseSequences.getValue()) {
+            for (final Map.Entry<String, Collection<String[]>> purchaseSequences : itemSequences.entrySet()) {
+                for (final String[] seq : purchaseSequences.getValue()) {
                     recommender.registerSuccessiveItem(purchaseSequences.getKey(), seq);
                 }
             }
-        } catch (NoSuchFieldException e) {
+        } catch (final NoSuchFieldException e) {
             throw new RecommenderException(e);
         }
         return recommender;

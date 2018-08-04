@@ -6,10 +6,12 @@ import com.liemily.generator.EntityGenerator;
 import com.liemily.math.MatrixCalculator;
 import com.liemily.math.VectorCalculator;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Random;
 
+@Ignore
 public class HybridRecommenderProviderPerformanceE2EIT {
     private static Inventory inventory;
 

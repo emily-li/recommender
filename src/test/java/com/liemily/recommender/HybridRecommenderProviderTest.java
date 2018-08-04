@@ -2,6 +2,7 @@ package com.liemily.recommender;
 
 import com.liemily.entity.Inventory;
 import com.liemily.entity.Item;
+import com.liemily.math.Matrix;
 import com.liemily.math.MatrixCalculator;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,16 +18,16 @@ public class HybridRecommenderProviderTest {
     public static void setupBeforeClass() {
         inventory = new Inventory(new Item("item1"), new Item("item2"), new Item("item3"));
         recommenders = new ItemBasedRecommender[]{
-                new ItemBasedRecommender(new DataSet(inventory.getIds(), new double[][]{
+                new ItemBasedRecommender(new DataSet(inventory.getIds(), new Matrix(new double[][]{
                         new double[]{0.1, 0.2, 0.3},
                         new double[]{0.3, 0.2, 0.4},
                         new double[]{0.3, 0.2, 0.1}
-                })),
-                new ItemBasedRecommender(new DataSet(inventory.getIds(), new double[][]{
+                }))),
+                new ItemBasedRecommender(new DataSet(inventory.getIds(), new Matrix(new double[][]{
                         new double[]{0.3, 0.2, 0.1},
                         new double[]{0.3, 0.3, 0.1},
                         new double[]{0.1, 0.2, 0.3}
-                }))};
+                })))};
     }
 
     @Test

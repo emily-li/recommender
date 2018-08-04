@@ -2,6 +2,7 @@ package com.liemily.recommender;
 
 import com.liemily.entity.Inventory;
 import com.liemily.entity.Item;
+import com.liemily.math.Matrix;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ public class SuccessiveCollaborativeRecommenderTest {
     public static void setupBeforeClass() {
         inventory = new Inventory(new Item("fooItem"), new Item("barItem"), new Item("someItem"), new Item("otherItem"));
         final double[][] data = new double[inventory.getInventory().length][inventory.getInventory().length];
-        final DataSet dataSet = new DataSet(inventory.getIds(), data);
+        final DataSet dataSet = new DataSet(inventory.getIds(), new Matrix(data));
         recommender = new SuccessiveCollaborativeRecommender(dataSet);
     }
 
@@ -30,8 +31,9 @@ public class SuccessiveCollaborativeRecommenderTest {
         recommender.registerSuccessiveItem(inventory.get(1).getId(), inventory.get(0).getId());
         final double previousLikelihood = getLikelihood(recommender, inventory.get(1).getId(), inventory.get(0).getId());
         recommender.registerSuccessiveItem(inventory.get(1).getId(), inventory.get(2).getId());
+        final double currLikelihood = getLikelihood(recommender, inventory.get(1).getId(), inventory.get(0).getId());
 
-        assert getLikelihood(recommender, inventory.get(1).getId(), inventory.get(0).getId()) < previousLikelihood;
+        assert currLikelihood < previousLikelihood;
     }
 
     @Test
