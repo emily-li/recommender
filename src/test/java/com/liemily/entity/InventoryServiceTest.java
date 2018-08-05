@@ -25,6 +25,6 @@ public class InventoryServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidNumPropertiesThrown() throws Exception {
-        inventoryService.getInventory("src/test/resources/invalidNumFields.txt");
+        inventoryService.getInventory("src/test/resources/invalidNumFieldsTest.txt");
     }
 }
