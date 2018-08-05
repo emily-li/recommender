@@ -1,0 +1,31 @@
+id,brand,category,subcategory,colour
+SteelSeries 5H v2 Black Headset with Microphone,SteelSeries,peripherals,headsets,black
+Antex ST4 Soldering Iron Stand,Antex,tools,soldering,black
+20W High Quality Mains Powered Soldering Iron,,tools,soldering,black
+Antex Lead Free 0.8mm Solder 2 Metre Length,Antex,tools,soldering,
+Green Antistatic Desoldering Pump,,tools,soldering,green
+Western Digital WD3200BEVE 320GB 2.5" Hard Drive ATA100 5400rpm 8MB Cache - OEM Scorpio Blue,Western Digital,storage,hard drives,
+Western Digital 320GB Scorpio Blue Hard Drive 2.5" SATAII 5400rpm 8MB Cache OEM - PS3 Compatible,Western Digital,storage,hard drives,
+Coolermaster Silent Pro 700W Modular PSU - Single 12V Rail with 50A,Coolermaster,components,power supplies,black
+AMD Athlon II X3 455 3.3GHz Socket AM3 Retail Boxed Processor,AMD,components,processors,
+Casecom KB-7760 Black ATX Midi Tower Case - No PSU,Casecom,components,computer cases,black
+Crucial 4GB DDR3 1333MHz Memory Module CL9 1.5V,Crucial,components,memory,
+Fractal Design - 80mm Silent Series Cooling Fan,Fractal Design,components,fans,white
+LG GH24NS70 24x DVD±RW DL & RAM SATA Optical Drive - Retail Black with Software,LG,storage,optical drives,
+Asus M5A97 PRO 970 Socket AM3+ 8 Channel HD Audio ATX Motherboard,Asus,components,motherboards,
+Cooler Master HTK-002-U1 HTK Performance Thermal paste,Coolermaster,components,thermal,
+Samsung 256GB 830 Series SSD,Samsung,storage,ssd,black
+Casecom CB-191 Black Mid Tower Case,Casecom,components,computer cases,black
+AMD Sempron 145 2.8GHz 45W Socket AM3 Retail Boxed Processor,AMD,components,processors,
+Asus M5A78L-M LX V2 Socket AM3+ onboard VGA 8 channel Audio mATX Motherboard,Asus,components,motherboards,
+Antec High Current Gamer 520W Fully Wired 80+ Bronze Power Supply,Antec,components,power supplies,
+Samsung SH-S222BB 22x DVD±RW DL & RAM SATA Optical Drive - Retail Box Black,Samsung,storage,optical drives,
+LG E2242C-BN LED LCD 21.5" VGA Monitor,LG,computer,monitors,black
+Kingston 2GB DDR3 1066MHz Memory Module Single Rank CL7 1.5V,components,memory,
+Breville VKJ666 Polished S/S Jug Kettle,home appliances,kettles,silver
+HANNS.G HE225DPB LED LCD 21.5" DVI Monitor,Hanns G,computer,monitors,black
+Seagate SSHD 1TB 3.5" SATA Desktop Solid State Hybrid Drive,Seagate,storage,ssd,black
+HP 720P Light and Compact Webcam,HP,peripherals,webcams,black
+Alcatel One Touch 1010X - Black - GSM - mobile phone,Alcatel,mobiles,basic,black
+AMD FX-8350 4GHz Socket AM3+ 8MB Cache Retail Boxed Processor,AMD,components,processors,
+Zotac GeForce GTX 960 4GB GDDR5 DVI HDMI 3 x DisplayPort PCI-E Graphics Card,Nvidia,components,graphics cards,black
