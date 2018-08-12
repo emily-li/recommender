@@ -6,41 +6,45 @@ import com.liemily.entity.UserHistory;
 import com.liemily.exception.RecommenderException;
 import com.liemily.math.Matrix;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SuccessiveCollaborativeRecommenderProviderTest {
-    private static SuccessiveCollaborativeRecommenderProvider recommenderProvider;
     private static SuccessiveCollaborativeRecommender recommender;
     private static Inventory inventory;
+    private static DataSet dataSet;
 
     @BeforeClass
     public static void setupBeforeClass() {
         inventory = new Inventory(new Item("fooItem"), new Item("barItem"), new Item("someItem"), new Item("otherItem"));
         final double[][] data = new double[inventory.getInventory().length][inventory.getInventory().length];
-        final DataSet dataSet = new DataSet(inventory.getIds(), new Matrix(data));
+        dataSet = new DataSet(inventory.getIds(), new Matrix(data));
+    }
+
+    @Before
+    public void setup() {
         recommender = new SuccessiveCollaborativeRecommender(dataSet);
     }
 
     @Test
     public void testGetRecommenderGivenUserHistory() throws Exception {
-        UserHistory userHistory = new UserHistory(inventory.get(0).getId(), inventory.get(1).getId());
+        final UserHistory userHistory = new UserHistory(new String[]{inventory.get(0).getId(), inventory.get(3).getId()}, new String[]{inventory.get(1).getId(), inventory.get(2).getId()});
 
-        recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory);
-        SuccessiveCollaborativeRecommender recommender = recommenderProvider.getRecommender();
+        final SuccessiveCollaborativeRecommenderProvider recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory);
+        recommender = recommenderProvider.getRecommender();
 
-        String recForSecondItem = recommender.getRecommendation(inventory.get(1).getId());
-
-        Assert.assertEquals(inventory.get(0).getId(), recForSecondItem);
+        assert (inventory.get(2).getId().equals(recommender.getRecommendation(inventory.get(0).getId())) || inventory.get(1).getId().equals(recommender.getRecommendation(inventory.get(0).getId())));
+        assert (inventory.get(2).getId().equals(recommender.getRecommendation(inventory.get(3).getId())) || inventory.get(1).getId().equals(recommender.getRecommendation(inventory.get(3).getId())));
     }
 
     @Test
     public void testGetRecommenderGivenUserHistories() throws Exception {
-        UserHistory userHistory1 = new UserHistory(inventory.get(0).getId(), inventory.get(2).getId());
-        UserHistory userHistory2 = new UserHistory(inventory.get(0).getId(), inventory.get(1).getId(), inventory.get(2).getId());
+        final UserHistory userHistory1 = new UserHistory(new String[]{inventory.get(0).getId()}, new String[]{inventory.get(2).getId()});
+        final UserHistory userHistory2 = new UserHistory(new String[]{inventory.get(0).getId(), inventory.get(1).getId()}, new String[]{inventory.get(2).getId()});
 
-        recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory1, userHistory2);
-        SuccessiveCollaborativeRecommender recommender = recommenderProvider.getRecommender();
+        final SuccessiveCollaborativeRecommenderProvider recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory1, userHistory2);
+        recommender = recommenderProvider.getRecommender();
 
         String recForThirdItem = recommender.getRecommendation(inventory.get(2).getId());
 
@@ -77,8 +81,8 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
     }
 
     @Test(expected = RecommenderException.class)
-    public void testExceptionThrownWhenUserHistoryContainsInvalidSuccessiveItem() throws Exception {
-        final UserHistory userHistory = new UserHistory(inventory.get(0).getId(), "invalidItem");
+    public void testExceptionThrownWhenUserHistoryContainsInvalidSucceededItem() throws Exception {
+        final UserHistory userHistory = new UserHistory(new String[]{"invalidItem"}, new String[]{inventory.get(0).getId()});
         final SuccessiveCollaborativeRecommenderProvider provider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory);
         provider.getRecommender();
     }

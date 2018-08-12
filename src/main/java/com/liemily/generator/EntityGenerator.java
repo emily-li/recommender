@@ -4,6 +4,7 @@ import com.liemily.entity.Inventory;
 import com.liemily.entity.Item;
 import com.liemily.entity.UserHistory;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class EntityGenerator {
@@ -41,7 +42,7 @@ public class EntityGenerator {
                 purchases[j] = inventory.getIds()[random.nextInt(inventory.getIds().length)];
             }
 
-            userHistories[i] = new UserHistory(purchases);
+            userHistories[i] = new UserHistory(Arrays.stream(purchases).map(p -> new String[]{p}).toArray(String[][]::new));
         }
         return userHistories;
     }

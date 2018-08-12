@@ -47,7 +47,6 @@ public class EntityGeneratorTest {
 
     @Test
     public void testSomePropertiesSharedSometimes() {
-
         boolean shared = false;
         Set<Integer> propIds = new HashSet<>();
         for (Item item : inventory.getInventory()) {
@@ -66,18 +65,18 @@ public class EntityGeneratorTest {
 
     @Test
     public void testGeneratesUserHistories() {
-        Arrays.stream(userHistories).forEach(uh -> assertNotNull(uh.getPurchaseHistory()));
+        Arrays.stream(userHistories).forEach(uh -> assertNotNull(uh.getOrderHistory()));
         assertEquals(numUsers, userHistories.length);
     }
 
     @Test
     public void testGeneratedUserHistoriesHaveDifferentSizes() {
         final Set<Integer> sizes = new HashSet<>();
-        sizes.add(userHistories[0].getPurchaseHistory().size());
+        sizes.add(userHistories[0].getOrderHistory().length);
 
         boolean diffSizes = false;
         for (int i = 1; i < userHistories.length; i++) {
-            if (sizes.add(userHistories[i].getPurchaseHistory().size())) {
+            if (sizes.add(userHistories[i].getOrderHistory().length)) {
                 diffSizes = true;
                 break;
             }
@@ -87,10 +86,16 @@ public class EntityGeneratorTest {
 
     @Test
     public void testGeneratedUserHistoriesHaveInventoryPurchases() {
-        Collection<String> inventoryItems = Arrays.stream(inventory.getIds()).collect(Collectors.toList());
+        final Collection<String> inventoryItems = Arrays.stream(inventory.getIds()).collect(Collectors.toSet());
+        final Collection<String[]> orders = new ArrayList<>();
+
         for (final UserHistory userHistory : userHistories) {
-            List<String> purchaseHistory = userHistory.getPurchaseHistory();
-            for (String item : purchaseHistory) {
+            final String[][] orderHistory = userHistory.getOrderHistory();
+            Collections.addAll(orders, orderHistory);
+        }
+
+        for (final String[] order : orders) {
+            for (final String item : order) {
                 assertTrue(inventoryItems.contains(item));
             }
         }

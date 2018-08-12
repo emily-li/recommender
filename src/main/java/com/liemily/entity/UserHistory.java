@@ -1,21 +1,38 @@
 package com.liemily.entity;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class UserHistory {
-    private final List<String> purchaseHistory;
+    private final String[][] purchaseHistory;
 
     /**
      * Purchase history, where the first item is the first purchase
      *
      * @param purchaseHistory List of item names that should match to an inventory
      */
-    public UserHistory(final String... purchaseHistory) {
-        this.purchaseHistory = Arrays.asList(purchaseHistory);
+    public UserHistory(final String[]... purchaseHistory) {
+        this.purchaseHistory = purchaseHistory;
     }
 
-    public List<String> getPurchaseHistory() {
+    public String[][] getOrderHistory() {
         return purchaseHistory;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserHistory that = (UserHistory) o;
+        return Arrays.deepEquals(purchaseHistory, that.purchaseHistory);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(purchaseHistory);
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.deepToString(purchaseHistory);
     }
 }

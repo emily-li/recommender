@@ -17,6 +17,7 @@ import java.util.Random;
 @Ignore
 public class HybridRecommenderE2EIT {
     private static Inventory inventory;
+    private static ItemBasedRecommender untrainedRecommender;
     private static ItemBasedRecommender hybridRecommender;
 
     @BeforeClass
@@ -30,6 +31,8 @@ public class HybridRecommenderE2EIT {
         final ItemBasedRecommender successiveRecommender = successiveCollaborativeRecommenderProvider.getRecommender();
         final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(inventory, new ItemBasedRecommender[]{propertyRecommender, successiveRecommender}, new MatrixCalculator());
         hybridRecommender = hybridRecommenderProvider.getRecommender();
+
+        untrainedRecommender = new UntrainedRecommenderProvider(inventory).getRecommender();
     }
 
     @Test
@@ -37,8 +40,8 @@ public class HybridRecommenderE2EIT {
         // precision = #true_positives / (#true_positives + #false_positives)
         // independent samples t-test over 100 tests
 
-        hybridRecommender.getRecommendation(inventory.get(0).getId());
+        final String item = inventory.get(0).getId();
+        untrainedRecommender.getRecommendation(item);
+        hybridRecommender.getRecommendation(item);
     }
-
-
 }
