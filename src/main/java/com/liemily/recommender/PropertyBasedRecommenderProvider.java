@@ -10,17 +10,14 @@ import java.util.concurrent.ThreadLocalRandom;
 public class PropertyBasedRecommenderProvider implements RecommenderProvider {
     private final VectorCalculator vectorCalculator;
     private final Inventory inventory;
-    private final double weightMin;
-    private final double weightMax;
 
-    public PropertyBasedRecommenderProvider(final VectorCalculator vectorCalculator, final Inventory inventory, final double weightMin, final double weightMax) {
+    public PropertyBasedRecommenderProvider(final VectorCalculator vectorCalculator, final Inventory inventory) {
         this.vectorCalculator = vectorCalculator;
         this.inventory = inventory;
-        this.weightMin = weightMin;
-        this.weightMax = weightMax;
     }
 
-    public ItemBasedRecommender getRecommender() {
+    @Override
+    public ItemBasedRecommender getRecommender(double weightMin, double weightMax) {
         final Item[] items = inventory.getInventory();
         final double[][] similarities = new double[items.length][items.length];
 

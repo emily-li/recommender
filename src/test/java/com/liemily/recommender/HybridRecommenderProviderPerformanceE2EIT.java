@@ -25,14 +25,14 @@ public class HybridRecommenderProviderPerformanceE2EIT {
         inventory = new EntityGenerator(new Random()).generateInventory(10000, 20);
         matrixCalculator = new MatrixCalculator();
 
-        propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory, 0, 1);
+        propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
         successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new UserHistory());
     }
 
     @Test(timeout = 180000)
-    public void testGetPropertyBasedRecommenderTime() {
+    public void testGetPropertyBasedRecommenderTime() throws Exception {
         long start = System.currentTimeMillis();
-        propertyBasedRecommenderProvider.getRecommender();
+        propertyBasedRecommenderProvider.getRecommender(0.0001, 0.0002);
         long end = System.currentTimeMillis();
         assert start - end < timeout;
     }
@@ -42,25 +42,25 @@ public class HybridRecommenderProviderPerformanceE2EIT {
         final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new UserHistory());
 
         long start = System.currentTimeMillis();
-        successiveCollaborativeRecommenderProvider.getRecommender();
+        successiveCollaborativeRecommenderProvider.getRecommender(0.0001, 0.0002);
         long end = System.currentTimeMillis();
         assert start - end < timeout;
     }
 
     @Test(timeout = 180000)
     public void testGetHybridRecommenderTime() throws Exception {
-        final ItemBasedRecommender[] recommenders = new ItemBasedRecommender[]{propertyBasedRecommenderProvider.getRecommender(), successiveCollaborativeRecommenderProvider.getRecommender()};
+        final ItemBasedRecommender[] recommenders = new ItemBasedRecommender[]{propertyBasedRecommenderProvider.getRecommender(0.0001, 0.0002), successiveCollaborativeRecommenderProvider.getRecommender(0.0001, 0.0002)};
         final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(inventory, recommenders, matrixCalculator);
 
         long start = System.currentTimeMillis();
-        hybridRecommenderProvider.getRecommender();
+        hybridRecommenderProvider.getRecommender(0.0001, 0.0002);
         long end = System.currentTimeMillis();
         assert start - end < timeout;
     }
 
     @Test(timeout = 180000)
-    public void testMatrixMultiplication() {
-        final Matrix m = propertyBasedRecommenderProvider.getRecommender().getDataSet().getData();
+    public void testMatrixMultiplication() throws Exception {
+        final Matrix m = propertyBasedRecommenderProvider.getRecommender(0.0001, 0.0002).getDataSet().getData();
 
         long start = System.currentTimeMillis();
         matrixCalculator.multiply(m, m);

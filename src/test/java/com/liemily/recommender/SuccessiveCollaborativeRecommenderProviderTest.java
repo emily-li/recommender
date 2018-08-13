@@ -32,7 +32,7 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
         final UserHistory userHistory = new UserHistory(new String[]{inventory.get(0).getId(), inventory.get(3).getId()}, new String[]{inventory.get(1).getId(), inventory.get(2).getId()});
 
         final SuccessiveCollaborativeRecommenderProvider recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory);
-        recommender = recommenderProvider.getRecommender();
+        recommender = recommenderProvider.getRecommender(0, 1);
 
         assert (inventory.get(2).getId().equals(recommender.getRecommendation(inventory.get(0).getId())) || inventory.get(1).getId().equals(recommender.getRecommendation(inventory.get(0).getId())));
         assert (inventory.get(2).getId().equals(recommender.getRecommendation(inventory.get(3).getId())) || inventory.get(1).getId().equals(recommender.getRecommendation(inventory.get(3).getId())));
@@ -44,7 +44,7 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
         final UserHistory userHistory2 = new UserHistory(new String[]{inventory.get(0).getId(), inventory.get(1).getId()}, new String[]{inventory.get(2).getId()});
 
         final SuccessiveCollaborativeRecommenderProvider recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory1, userHistory2);
-        recommender = recommenderProvider.getRecommender();
+        recommender = recommenderProvider.getRecommender(0, 1);
 
         String recForThirdItem = recommender.getRecommendation(inventory.get(2).getId());
 
@@ -84,7 +84,7 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
     public void testExceptionThrownWhenUserHistoryContainsInvalidSucceededItem() throws Exception {
         final UserHistory userHistory = new UserHistory(new String[]{"invalidItem"}, new String[]{inventory.get(0).getId()});
         final SuccessiveCollaborativeRecommenderProvider provider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory);
-        provider.getRecommender();
+        provider.getRecommender(0, 1);
     }
 
     private double getLikelihood(ItemBasedRecommender recommender, String item, String previousItem) throws NoSuchFieldException {

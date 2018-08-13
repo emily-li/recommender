@@ -25,8 +25,8 @@ public class PropertyBasedRecommenderProviderTest {
     public void testWeightsAlterPropertySimilarities() throws Exception {
         final double minWeight = 0.1;
         final double maxWeight = 0.2;
-        final PropertyBasedRecommenderProvider provider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory, minWeight, maxWeight);
-        final ItemBasedRecommender recommender = provider.getRecommender();
+        final PropertyBasedRecommenderProvider provider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
+        final ItemBasedRecommender recommender = provider.getRecommender(minWeight, maxWeight);
 
         final DataSet actualDataSet = recommender.getDataSet();
         final double[][] nonWeightedExpectedDataSet = new double[][]{

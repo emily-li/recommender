@@ -8,6 +8,7 @@ import com.liemily.math.Matrix;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SuccessiveCollaborativeRecommenderProvider implements RecommenderProvider {
     private final Inventory inventory;
@@ -18,9 +19,9 @@ public class SuccessiveCollaborativeRecommenderProvider implements RecommenderPr
         this.userHistories = userHistories;
     }
 
-    public SuccessiveCollaborativeRecommender getRecommender() throws RecommenderException {
+    @Override
+    public SuccessiveCollaborativeRecommender getRecommender(double weightMin, double weightMax) throws RecommenderException {
         final String[] itemIds = inventory.getIds();
-
 
         final List<String[]> orders = new ArrayList<>();
         for (final UserHistory userHistory : userHistories) {
@@ -28,7 +29,14 @@ public class SuccessiveCollaborativeRecommenderProvider implements RecommenderPr
             Collections.addAll(orders, orderHistory);
         }
 
-        final DataSet dataSet = new DataSet(itemIds, new Matrix(new double[itemIds.length][itemIds.length]));
+        final double[][] weightedDataSet = new double[inventory.getIds().length][inventory.getIds().length];
+        for (int i = 0; i < inventory.getIds().length; i++) {
+            for (int j = 0; j < inventory.getIds().length; j++) {
+                weightedDataSet[i][j] = ThreadLocalRandom.current().nextDouble(weightMin, weightMax);
+            }
+        }
+
+        final DataSet dataSet = new DataSet(itemIds, new Matrix(weightedDataSet));
         final SuccessiveCollaborativeRecommender recommender = new SuccessiveCollaborativeRecommender(dataSet);
 
         try {

@@ -14,13 +14,13 @@ public class UntrainedRecommenderProvider implements RecommenderProvider {
     }
 
     @Override
-    public ItemBasedRecommender getRecommender() {
+    public ItemBasedRecommender getRecommender(double weightMin, double weightMax) {
         final Item[] items = inventory.getInventory();
         final double[][] randomSimilarities = new double[items.length][items.length];
         final Random random = new Random();
 
         for (int i = 0; i < items.length; i++) {
-            randomSimilarities[i] = random.doubles(items.length, 0, 1).toArray();
+            randomSimilarities[i] = random.doubles(items.length, weightMin, weightMax).toArray();
         }
 
         final DataSet dataSet = new DataSet(inventory.getIds(), new Matrix(randomSimilarities));

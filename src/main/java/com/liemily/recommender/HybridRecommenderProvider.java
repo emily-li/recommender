@@ -16,7 +16,7 @@ public class HybridRecommenderProvider implements RecommenderProvider {
     }
 
     @Override
-    public ItemBasedRecommender getRecommender() {
+    public ItemBasedRecommender getRecommender(double weightMin, double weightMax) {
         final DataSet dataSet = combineDatasets();
         return new ItemBasedRecommender(dataSet);
     }

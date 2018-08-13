@@ -16,10 +16,12 @@ import java.util.*;
  */
 public class HybridRecommenderE2EIT {
     private static Inventory inventory;
-    private static ItemBasedRecommender untrainedRecommender;
-    private static ItemBasedRecommender hybridRecommender;
-
     private static UserHistory[] userHistories;
+    private static PropertyBasedRecommenderProvider propertyBasedRecommenderProvider;
+    private static SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider;
+
+    private ItemBasedRecommender hybridRecommender;
+    private ItemBasedRecommender untrainedRecommender;
 
     @BeforeClass
     public static void setupBeforeClass() throws Exception {
@@ -29,16 +31,8 @@ public class HybridRecommenderE2EIT {
         final UserHistoryService userHistoryService = new UserHistoryService();
         userHistories = userHistoryService.getUserHistories("src/test/resources/testUserHistoryData.txt");
 
-        final PropertyBasedRecommenderProvider propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory, 1.0001, 1.0002);
-        final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new UserHistory());
-
-        final ItemBasedRecommender propertyRecommender = propertyBasedRecommenderProvider.getRecommender();
-        final ItemBasedRecommender successiveRecommender = successiveCollaborativeRecommenderProvider.getRecommender();
-
-        final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(inventory, new ItemBasedRecommender[]{propertyRecommender, successiveRecommender}, new MatrixCalculator());
-        hybridRecommender = hybridRecommenderProvider.getRecommender();
-
-        untrainedRecommender = new UntrainedRecommenderProvider(inventory).getRecommender();
+        propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
+        successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new UserHistory());
     }
 
     @Test
@@ -52,6 +46,8 @@ public class HybridRecommenderE2EIT {
             double untrainedTruePositives = 0;
             double trainedFalsePositives = 0;
             double trainedTruePositives = 0;
+
+            regenerateRecommenders();
 
             for (final String item : inventory.getIds()) {
                 final Collection<String> actualRecommendations = validRecommendations.get(item);
@@ -79,6 +75,24 @@ public class HybridRecommenderE2EIT {
         assert tTest(untrainedPrecisions, trainedPrecisions) < 0.05;
     }
 
+    private void regenerateRecommenders() throws Exception {
+        final ItemBasedRecommender propertyRecommender = propertyBasedRecommenderProvider.getRecommender(1.0001, 1.0002);
+        final SuccessiveCollaborativeRecommender successiveRecommender = successiveCollaborativeRecommenderProvider.getRecommender(1.0001, 1.0002);
+
+        for (final UserHistory userHistory : userHistories) {
+            for (String[] orders : userHistory.getOrderHistory()) {
+                if (orders.length > 2) {
+                    successiveRecommender.registerSuccessiveItem(orders[orders.length - 1], Arrays.copyOf(orders, orders.length - 2));
+                }
+            }
+        }
+
+        final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(inventory, new ItemBasedRecommender[]{propertyRecommender, successiveRecommender}, new MatrixCalculator());
+        hybridRecommender = hybridRecommenderProvider.getRecommender(1.0001, 1.0002);
+
+        untrainedRecommender = new UntrainedRecommenderProvider(inventory).getRecommender(1.0001, 1.0002);
+    }
+
     private double tTest(final double[] x, final double[] y) {
         final double xMean = Arrays.stream(x).average().orElse(0);
         final double yMean = Arrays.stream(y).average().orElse(0);
@@ -99,7 +113,7 @@ public class HybridRecommenderE2EIT {
 
         double tmp = 0;
         for (final double d : doubles) {
-            tmp += Math.sqrt(d - mean);
+            tmp += Math.sqrt(Math.abs(d - mean));
         }
         return tmp == 0 ? 0 : tmp / (doubles.length - 1);
     }
