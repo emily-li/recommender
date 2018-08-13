@@ -30,9 +30,4 @@ public class UserHistory {
     public int hashCode() {
         return Arrays.deepHashCode(purchaseHistory);
     }
-
-    @Override
-    public String toString() {
-        return Arrays.deepToString(purchaseHistory);
-    }
 }
