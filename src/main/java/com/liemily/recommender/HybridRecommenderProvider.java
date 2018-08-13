@@ -25,7 +25,7 @@ public class HybridRecommenderProvider implements RecommenderProvider {
         Matrix probabilities = null;
         for (final ItemBasedRecommender recommender : recommenders) {
             final DataSet dataSet = recommender.getDataSet();
-            probabilities = probabilities == null ? dataSet.getData() : matrixCalculator.multiply(probabilities, dataSet.getData());
+            probabilities = probabilities == null ? dataSet.getData() : matrixCalculator.add(probabilities, dataSet.getData());
         }
         return new DataSet(inventory.getIds(), probabilities);
     }

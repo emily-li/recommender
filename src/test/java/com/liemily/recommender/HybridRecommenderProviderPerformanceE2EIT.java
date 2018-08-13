@@ -25,7 +25,7 @@ public class HybridRecommenderProviderPerformanceE2EIT {
         inventory = new EntityGenerator(new Random()).generateInventory(10000, 20);
         matrixCalculator = new MatrixCalculator();
 
-        propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
+        propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory, 0, 1);
         successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new UserHistory());
     }
 

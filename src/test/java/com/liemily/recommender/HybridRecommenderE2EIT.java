@@ -29,7 +29,7 @@ public class HybridRecommenderE2EIT {
         final UserHistoryService userHistoryService = new UserHistoryService();
         userHistories = userHistoryService.getUserHistories("src/test/resources/testUserHistoryData.txt");
 
-        final PropertyBasedRecommenderProvider propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
+        final PropertyBasedRecommenderProvider propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory, 1.0001, 1.0002);
         final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new UserHistory());
 
         final ItemBasedRecommender propertyRecommender = propertyBasedRecommenderProvider.getRecommender();
@@ -47,7 +47,7 @@ public class HybridRecommenderE2EIT {
         final double[] untrainedPrecisions = new double[100];
         final double[] trainedPrecisions = new double[100];
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 100; i++) {
             double untrainedFalsePositives = 0;
             double untrainedTruePositives = 0;
             double trainedFalsePositives = 0;
