@@ -21,8 +21,8 @@ Asus M5A78L-M LX V2 Socket AM3+ onboard VGA 8 channel Audio mATX Motherboard,Asu
 Antec High Current Gamer 520W Fully Wired 80+ Bronze Power Supply,Antec,components,power supplies,
 Samsung SH-S222BB 22x DVD±RW DL & RAM SATA Optical Drive - Retail Box Black,Samsung,storage,optical drives,
 LG E2242C-BN LED LCD 21.5" VGA Monitor,LG,computer,monitors,black
-Kingston 2GB DDR3 1066MHz Memory Module Single Rank CL7 1.5V,components,memory,
-Breville VKJ666 Polished S/S Jug Kettle,home appliances,kettles,silver
+Kingston 2GB DDR3 1066MHz Memory Module Single Rank CL7 1.5V,Kingston,components,memory,
+Breville VKJ666 Polished S/S Jug Kettle,Breville,home appliances,kettles,silver
 HANNS.G HE225DPB LED LCD 21.5" DVI Monitor,Hanns G,computer,monitors,black
 Seagate SSHD 1TB 3.5" SATA Desktop Solid State Hybrid Drive,Seagate,storage,ssd,black
 HP 720P Light and Compact Webcam,HP,peripherals,webcams,black
