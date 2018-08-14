@@ -25,4 +25,7 @@ public class ItemBasedRecommender {
         return dataSet;
     }
 
+    double sigmoid(final double x) {
+        return 1 / (1 + Math.exp(-x));
+    }
 }

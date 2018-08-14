@@ -33,19 +33,19 @@ public class HybridRecommenderProviderTest {
 
     @Test
     public void testRecommendationFromHybrid() throws Exception {
-        HybridRecommenderProvider recommenderProvider = new HybridRecommenderProvider(inventory, recommenders, new MatrixCalculator());
-        String rec = recommenderProvider.getRecommender(0.0001, 0.0002).getRecommendation(inventory.get(0).getId());
+        final HybridRecommenderProvider recommenderProvider = new HybridRecommenderProvider(inventory, recommenders, new MatrixCalculator());
+        final String rec = recommenderProvider.getRecommender(0.0001, 0.0002).getRecommendation(inventory.get(0).getId());
         assertEquals(inventory.get(1).getId(), rec);
     }
 
     @Test
-    public void testRecommendationIfRecommenderHasEmptyValues() throws Exception {
-        double[][] emptyDataSet = new double[inventory.getIds().length][inventory.getIds().length];
+    public void testRecommenderHasNoZeroValuesIfDataSetHasEmptyValues() {
+        final double[][] emptyDataSet = new double[inventory.getIds().length][inventory.getIds().length];
         Arrays.stream(emptyDataSet).forEach(row -> Arrays.fill(row, 0.0));
-        ItemBasedRecommender emptyRecommender = new ItemBasedRecommender(new DataSet(inventory.getIds(), new Matrix(emptyDataSet)));
-        HybridRecommenderProvider recommenderProvider = new HybridRecommenderProvider(inventory, new ItemBasedRecommender[]{recommenders[0], emptyRecommender}, new MatrixCalculator());
+        final ItemBasedRecommender emptyRecommender = new ItemBasedRecommender(new DataSet(inventory.getIds(), new Matrix(emptyDataSet)));
+        final HybridRecommenderProvider recommenderProvider = new HybridRecommenderProvider(inventory, new ItemBasedRecommender[]{recommenders[0], emptyRecommender}, new MatrixCalculator());
 
-        Matrix hybridMatrix = recommenderProvider.getRecommender(0.0001, 0.0002).getDataSet().getData();
+        final Matrix hybridMatrix = recommenderProvider.getRecommender(0.0001, 0.0002).getDataSet().getData();
         boolean hasNonZero = false;
         for (int i = 0; i < inventory.getIds().length; i++) {
             for (int j = 0; j < inventory.getIds().length; j++) {

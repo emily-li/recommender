@@ -22,7 +22,7 @@ public class EntityGeneratorTest {
 
     @BeforeClass
     public static void setupBeforeClass() {
-        EntityGenerator entityGenerator = new EntityGenerator(new Random());
+        EntityGenerator entityGenerator = new EntityGenerator();
         numItems = 100;
         numUsers = 100;
         inventory = entityGenerator.generateInventory(numItems, 1000);

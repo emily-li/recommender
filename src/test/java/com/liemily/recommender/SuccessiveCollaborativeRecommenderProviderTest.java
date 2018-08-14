@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 public class SuccessiveCollaborativeRecommenderProviderTest {
     private static SuccessiveCollaborativeRecommender recommender;
     private static Inventory inventory;
@@ -85,6 +87,15 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
         final UserHistory userHistory = new UserHistory(new String[]{"invalidItem"}, new String[]{inventory.get(0).getId()});
         final SuccessiveCollaborativeRecommenderProvider provider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory);
         provider.getRecommender(0, 1);
+    }
+
+    @Test
+    public void testRecommenderHasNoUnderZeroLikelihoods() throws Exception {
+        for (int i = 0; i < 100; i++) {
+            recommender.registerSuccessiveItem(inventory.get(0).getId(), inventory.get(2).getId());
+        }
+        final double[][] dataSet = recommender.getDataSet().getData().getMatrix().toRawCopy2D();
+        assert Arrays.stream(dataSet).noneMatch(row -> Arrays.stream(row).anyMatch(x -> x < 0));
     }
 
     private double getLikelihood(ItemBasedRecommender recommender, String item, String previousItem) throws NoSuchFieldException {

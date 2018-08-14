@@ -9,8 +9,6 @@ import com.liemily.math.VectorCalculator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.Random;
-
 public class HybridRecommenderProviderPerformanceE2EIT {
     private static int timeout;
     private static Inventory inventory;
@@ -22,7 +20,7 @@ public class HybridRecommenderProviderPerformanceE2EIT {
     @BeforeClass
     public static void setupBeforeClass() {
         timeout = 60000;
-        inventory = new EntityGenerator(new Random()).generateInventory(10000, 20);
+        inventory = new EntityGenerator().generateInventory(10000, 20);
         matrixCalculator = new MatrixCalculator();
 
         propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
@@ -30,7 +28,7 @@ public class HybridRecommenderProviderPerformanceE2EIT {
     }
 
     @Test(timeout = 180000)
-    public void testGetPropertyBasedRecommenderTime() throws Exception {
+    public void testGetPropertyBasedRecommenderTime() {
         long start = System.currentTimeMillis();
         propertyBasedRecommenderProvider.getRecommender(0.0001, 0.0002);
         long end = System.currentTimeMillis();
@@ -59,7 +57,7 @@ public class HybridRecommenderProviderPerformanceE2EIT {
     }
 
     @Test(timeout = 180000)
-    public void testMatrixMultiplication() throws Exception {
+    public void testMatrixMultiplication() {
         final Matrix m = propertyBasedRecommenderProvider.getRecommender(0.0001, 0.0002).getDataSet().getData();
 
         long start = System.currentTimeMillis();

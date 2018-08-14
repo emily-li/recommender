@@ -20,6 +20,7 @@ public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
             } else {
                 likelihood--;
             }
+            likelihood = sigmoid(likelihood);
             getDataSet().getData().set(currentItemIdx, i, likelihood);
         }
     }

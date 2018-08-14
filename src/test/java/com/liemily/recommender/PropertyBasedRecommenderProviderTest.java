@@ -6,6 +6,8 @@ import com.liemily.math.VectorCalculator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -53,5 +55,13 @@ public class PropertyBasedRecommenderProviderTest {
         }
 
         assertNotEquals(actualDataSet.getData().get(0, 1), actualDataSet.getData().get(1, 0));
+    }
+
+    @Test
+    public void testLikelihoodsNotUnderZero() {
+        final PropertyBasedRecommenderProvider provider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
+        final ItemBasedRecommender recommender = provider.getRecommender(-2, -1);
+        final double[][] dataset = recommender.getDataSet().getData().getMatrix().toRawCopy2D();
+        assert Arrays.stream(dataset).noneMatch(row -> Arrays.stream(row).anyMatch(x -> x < 0));
     }
 }

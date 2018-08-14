@@ -4,39 +4,89 @@ import com.liemily.entity.Inventory;
 import com.liemily.entity.InventoryService;
 import com.liemily.entity.UserHistory;
 import com.liemily.entity.UserHistoryService;
+import com.liemily.generator.EntityGenerator;
 import com.liemily.math.MatrixCalculator;
 import com.liemily.math.VectorCalculator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Emily Li on 03/08/2018.
  */
 public class HybridRecommenderE2EIT {
-    private static Inventory inventory;
-    private static UserHistory[] userHistories;
-    private static PropertyBasedRecommenderProvider propertyBasedRecommenderProvider;
-    private static SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider;
+    private static MatrixCalculator matrixCalculator;
+    private static VectorCalculator vectorCalculator;
+
+    private Inventory inventory;
+    private UserHistory[] userHistories;
+    private PropertyBasedRecommenderProvider propertyBasedRecommenderProvider;
+    private SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider;
 
     private ItemBasedRecommender hybridRecommender;
     private ItemBasedRecommender untrainedRecommender;
 
     @BeforeClass
-    public static void setupBeforeClass() throws Exception {
-        final InventoryService inventoryService = new InventoryService();
-        inventory = inventoryService.getInventory("src/test/resources/testInventoryData.txt");
-
-        final UserHistoryService userHistoryService = new UserHistoryService();
-        userHistories = userHistoryService.getUserHistories("src/test/resources/testUserHistoryData.txt");
-
-        propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
-        successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new UserHistory());
+    public static void setupBeforeClass() {
+        matrixCalculator = new MatrixCalculator();
+        vectorCalculator = new VectorCalculator();
     }
 
     @Test
-    public void testHybridRecommenderPrecisionHigherThanRandom() throws Exception {
+    public void testHybridRecommenderPrecisionTestData() throws Exception {
+        final EntityGenerator entityGenerator = new EntityGenerator();
+        inventory = entityGenerator.generateInventory(100, 20);
+        userHistories = entityGenerator.generateUserHistories(1000, 5, inventory);
+
+        propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(vectorCalculator, inventory);
+        successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistories);
+
+        hybridRecommender = new HybridRecommenderProvider(inventory,
+                new ItemBasedRecommender[]{
+                        propertyBasedRecommenderProvider.getRecommender(1.0001, 1.0002),
+                        successiveCollaborativeRecommenderProvider.getRecommender(1.0001, 1.0002)
+                },
+                matrixCalculator)
+                .getRecommender(1.00001, 1.0002);
+
+        final Collection<UserHistory> userHistoriesWithMultOrders = new ArrayList<>();
+        for (final UserHistory userHistory : userHistories) {
+            if (userHistory.getOrderHistory().length > 1) {
+                userHistoriesWithMultOrders.add(userHistory);
+            }
+        }
+
+        int truePositives = 0;
+        for (final UserHistory userHistory : userHistoriesWithMultOrders) {
+            final String[][] orders = userHistory.getOrderHistory();
+            final int randOrderIdx = ThreadLocalRandom.current().nextInt(1, orders.length);
+            final String[] randOrder = orders[randOrderIdx];
+
+            final String recommendation = hybridRecommender.getRecommendation(randOrder[ThreadLocalRandom.current().nextInt(0, randOrder.length)]);
+            for (int i = 0; i < randOrderIdx; i++) {
+                if (Arrays.asList(orders[i]).contains(recommendation)) {
+                    truePositives++;
+                }
+            }
+        }
+
+        assert truePositives > 0;
+    }
+
+    @Test
+    public void testHybridRecommenderPrecisionRealDataE2E() throws Exception {
+        final InventoryService inventoryService = new InventoryService();
+        inventory = inventoryService.getInventory("src/test/resources/hybridE2EInventory.txt");
+
+        final UserHistoryService userHistoryService = new UserHistoryService();
+        userHistories = userHistoryService.getUserHistories("src/test/resources/hybridE2EUserHistories.txt");
+
+        propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(vectorCalculator, inventory);
+        successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new UserHistory());
+
+
         final Map<String, Collection<String>> validRecommendations = getValidRecommendations(userHistories);
         final double[] untrainedPrecisions = new double[100];
         final double[] trainedPrecisions = new double[100];
@@ -87,7 +137,10 @@ public class HybridRecommenderE2EIT {
             }
         }
 
-        final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(inventory, new ItemBasedRecommender[]{propertyRecommender, successiveRecommender}, new MatrixCalculator());
+        final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(
+                inventory,
+                new ItemBasedRecommender[]{propertyRecommender, successiveRecommender},
+                matrixCalculator);
         hybridRecommender = hybridRecommenderProvider.getRecommender(1.0001, 1.0002);
 
         untrainedRecommender = new UntrainedRecommenderProvider(inventory).getRecommender(1.0001, 1.0002);

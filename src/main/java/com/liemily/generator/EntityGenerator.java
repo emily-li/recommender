@@ -5,29 +5,22 @@ import com.liemily.entity.Item;
 import com.liemily.entity.UserHistory;
 
 import java.util.Arrays;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class EntityGenerator {
-    private final Random random;
-
-    public EntityGenerator(Random random) {
-        this.random = random;
-    }
-
-
     public Inventory generateInventory(final int numItems, final int numProps) {
-        final double[][] propBin = new double[random.nextInt(numProps)][numProps];
+        final double[][] propBin = new double[ThreadLocalRandom.current().nextInt(1, numProps)][numProps];
 
         for (int i = 0; i < propBin.length; i++) {
-            final int numPopulatedProps = random.nextInt(numProps);
+            final int numPopulatedProps = ThreadLocalRandom.current().nextInt(numProps);
             for (int j = 0; j < numPopulatedProps; j++) {
-                propBin[i][random.nextInt(numPopulatedProps - j)] = Math.random();
+                propBin[i][ThreadLocalRandom.current().nextInt(numPopulatedProps - j)] = Math.random();
             }
         }
 
         final Item[] items = new Item[numItems];
         for (int i = 0; i < numItems; i++) {
-            final Item item = new Item("item" + i, propBin[random.nextInt(propBin.length)]);
+            final Item item = new Item("item" + i, propBin[ThreadLocalRandom.current().nextInt(propBin.length)]);
 
             items[i] = item;
         }
@@ -37,9 +30,9 @@ public class EntityGenerator {
     public UserHistory[] generateUserHistories(final int numUsers, final int historicalBound, final Inventory inventory) {
         final UserHistory[] userHistories = new UserHistory[numUsers];
         for (int i = 0; i < numUsers; i++) {
-            final String[] purchases = new String[random.nextInt(historicalBound)];
+            final String[] purchases = new String[ThreadLocalRandom.current().nextInt(historicalBound)];
             for (int j = 0; j < purchases.length; j++) {
-                purchases[j] = inventory.getIds()[random.nextInt(inventory.getIds().length)];
+                purchases[j] = inventory.getIds()[ThreadLocalRandom.current().nextInt(inventory.getIds().length)];
             }
 
             userHistories[i] = new UserHistory(Arrays.stream(purchases).map(p -> new String[]{p}).toArray(String[][]::new));

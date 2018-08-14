@@ -28,8 +28,8 @@ public class PropertyBasedRecommenderProvider implements RecommenderProvider {
             for (int j = i + 1; j < items.length - i; j++) {
                 final Item comparatorItem = items[j];
                 final double sim = vectorCalculator.cosineSimilarity(itemProps, comparatorItem.getPropArray());
-                similarities[i][j] = sim * ThreadLocalRandom.current().nextDouble(weightMin, weightMax);
-                similarities[j][i] = sim * ThreadLocalRandom.current().nextDouble(weightMin, weightMax);
+                similarities[i][j] = Math.abs(sim * ThreadLocalRandom.current().nextDouble(weightMin, weightMax));
+                similarities[j][i] = Math.abs(sim * ThreadLocalRandom.current().nextDouble(weightMin, weightMax));
             }
         }
 
