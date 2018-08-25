@@ -39,10 +39,10 @@ public class UserHistoryService {
         }
     }
 
-    public class Order {
-        private Collection<String> items;
+    class Order {
+        private final Collection<String> items;
 
-        public Order(Collection<String> items) {
+        Order(Collection<String> items) {
             this.items = items;
         }
     }

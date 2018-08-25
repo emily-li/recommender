@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class UntrainedRecommenderProviderTest {
     @Test
-    public void testRecommenderGivesRandomValues() throws Exception {
+    public void testRecommenderGivesRandomValues() {
         final Inventory inventory = new Inventory(new Item("a"), new Item("b"), new Item("c"));
 
         final Matrix m1 = new UntrainedRecommenderProvider(inventory).getRecommender(0.0001, 0.0002).getDataSet().getData();
