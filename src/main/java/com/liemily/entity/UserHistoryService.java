@@ -7,9 +7,6 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
-/**
- * Created by Emily Li on 05/08/2018.
- */
 public class UserHistoryService {
     public UserHistory[] getUserHistories(final String file) throws IOException {
         return readFile(file);

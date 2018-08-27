@@ -2,8 +2,8 @@ package com.liemily.recommender;
 
 import com.liemily.entity.Inventory;
 import com.liemily.entity.Item;
+import com.liemily.math.Calculator;
 import com.liemily.math.Matrix;
-import com.liemily.math.MatrixCalculator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class HybridRecommenderProviderTest {
 
     @Test
     public void testRecommendationFromHybrid() throws Exception {
-        final HybridRecommenderProvider recommenderProvider = new HybridRecommenderProvider(inventory, recommenders, new MatrixCalculator());
+        final HybridRecommenderProvider recommenderProvider = new HybridRecommenderProvider(inventory, recommenders, new Calculator());
         final String rec = recommenderProvider.getRecommender(0.0001, 0.0002).getRecommendation(inventory.get(0).getId());
         assertEquals(inventory.get(1).getId(), rec);
     }
@@ -43,7 +43,7 @@ public class HybridRecommenderProviderTest {
         final double[][] emptyDataSet = new double[inventory.getIds().length][inventory.getIds().length];
         Arrays.stream(emptyDataSet).forEach(row -> Arrays.fill(row, 0.0));
         final ItemBasedRecommender emptyRecommender = new ItemBasedRecommender(new DataSet(inventory.getIds(), new Matrix(emptyDataSet)));
-        final HybridRecommenderProvider recommenderProvider = new HybridRecommenderProvider(inventory, new ItemBasedRecommender[]{recommenders[0], emptyRecommender}, new MatrixCalculator());
+        final HybridRecommenderProvider recommenderProvider = new HybridRecommenderProvider(inventory, new ItemBasedRecommender[]{recommenders[0], emptyRecommender}, new Calculator());
 
         final Matrix hybridMatrix = recommenderProvider.getRecommender(0.0001, 0.0002).getDataSet().getData();
         boolean hasNonZero = false;

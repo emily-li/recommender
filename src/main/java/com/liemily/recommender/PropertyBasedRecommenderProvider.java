@@ -2,17 +2,17 @@ package com.liemily.recommender;
 
 import com.liemily.entity.Inventory;
 import com.liemily.entity.Item;
+import com.liemily.math.Calculator;
 import com.liemily.math.Matrix;
-import com.liemily.math.VectorCalculator;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PropertyBasedRecommenderProvider implements RecommenderProvider {
-    private final VectorCalculator vectorCalculator;
+    private final Calculator calculator;
     private final Inventory inventory;
 
-    public PropertyBasedRecommenderProvider(final VectorCalculator vectorCalculator, final Inventory inventory) {
-        this.vectorCalculator = vectorCalculator;
+    public PropertyBasedRecommenderProvider(final Calculator calculator, final Inventory inventory) {
+        this.calculator = calculator;
         this.inventory = inventory;
     }
 
@@ -27,12 +27,11 @@ public class PropertyBasedRecommenderProvider implements RecommenderProvider {
 
             for (int j = i + 1; j < items.length - i; j++) {
                 final Item comparatorItem = items[j];
-                final double sim = vectorCalculator.cosineSimilarity(itemProps, comparatorItem.getPropArray());
+                final double sim = calculator.cosineSimilarity(itemProps, comparatorItem.getPropArray());
                 similarities[i][j] = Math.abs(sim * ThreadLocalRandom.current().nextDouble(weightMin, weightMax));
                 similarities[j][i] = Math.abs(sim * ThreadLocalRandom.current().nextDouble(weightMin, weightMax));
             }
         }
-
         final DataSet dataSet = new DataSet(inventory.getIds(), new Matrix(similarities));
         return new ItemBasedRecommender(dataSet);
     }

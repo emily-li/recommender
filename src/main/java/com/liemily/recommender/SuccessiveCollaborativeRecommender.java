@@ -1,10 +1,16 @@
 package com.liemily.recommender;
 
+import com.liemily.math.Calculator;
+
 import java.util.Arrays;
 
 public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
-    public SuccessiveCollaborativeRecommender(DataSet dataSet) {
+    private Calculator calculator;
+
+    public SuccessiveCollaborativeRecommender(final DataSet dataSet,
+                                              final Calculator calculator) {
         super(dataSet);
+        this.calculator = calculator;
     }
 
     public void registerSuccessiveItem(String current, String... previous) throws NoSuchFieldException {
@@ -20,7 +26,7 @@ public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
             } else {
                 likelihood--;
             }
-            likelihood = sigmoid(likelihood);
+            likelihood = calculator.sigmoid(likelihood);
             getDataSet().getData().set(currentItemIdx, i, likelihood);
         }
     }

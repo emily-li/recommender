@@ -1,18 +1,18 @@
 package com.liemily.recommender;
 
 import com.liemily.entity.Inventory;
+import com.liemily.math.Calculator;
 import com.liemily.math.Matrix;
-import com.liemily.math.MatrixCalculator;
 
 public class HybridRecommenderProvider implements RecommenderProvider {
     private final Inventory inventory;
-    private final ItemBasedRecommender recommenders[];
-    private final MatrixCalculator matrixCalculator;
+    private final ItemBasedRecommender[] recommenders;
+    private final Calculator calculator;
 
-    public HybridRecommenderProvider(final Inventory inventory, final ItemBasedRecommender[] recommenders, final MatrixCalculator matrixCalculator) {
+    public HybridRecommenderProvider(final Inventory inventory, final ItemBasedRecommender[] recommenders, final Calculator calculator) {
         this.inventory = inventory;
         this.recommenders = recommenders;
-        this.matrixCalculator = matrixCalculator;
+        this.calculator = calculator;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class HybridRecommenderProvider implements RecommenderProvider {
         Matrix probabilities = null;
         for (final ItemBasedRecommender recommender : recommenders) {
             final DataSet dataSet = recommender.getDataSet();
-            probabilities = probabilities == null ? dataSet.getData() : matrixCalculator.add(probabilities, dataSet.getData());
+            probabilities = probabilities == null ? dataSet.getData() : calculator.add(probabilities, dataSet.getData());
         }
         return new DataSet(inventory.getIds(), probabilities);
     }

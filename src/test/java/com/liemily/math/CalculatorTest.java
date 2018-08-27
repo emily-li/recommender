@@ -4,12 +4,12 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class VectorCalculatorTest {
-    private static VectorCalculator calculator;
+public class CalculatorTest {
+    private static Calculator calculator;
 
     @BeforeClass
     public static void setupBeforeClass() {
-        calculator = new VectorCalculator();
+        calculator = new Calculator();
     }
 
     @Test

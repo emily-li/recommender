@@ -2,7 +2,7 @@ package com.liemily.recommender;
 
 import com.liemily.entity.Inventory;
 import com.liemily.entity.Item;
-import com.liemily.math.VectorCalculator;
+import com.liemily.math.Calculator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -13,6 +13,7 @@ import static org.junit.Assert.assertNotEquals;
 
 public class PropertyBasedRecommenderProviderTest {
     private static Inventory inventory;
+    private static Calculator calculator;
 
     @BeforeClass
     public static void setupBeforeClass() {
@@ -21,17 +22,18 @@ public class PropertyBasedRecommenderProviderTest {
                 new Item("item2", new double[]{1, 0, 0}),
                 new Item("item3", new double[]{0, 0, 1})
         );
+        calculator = new Calculator();
     }
 
     @Test
     public void testWeightsAlterPropertySimilarities() throws Exception {
         final double minWeight = 0.1;
         final double maxWeight = 0.2;
-        final PropertyBasedRecommenderProvider provider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
+        final PropertyBasedRecommenderProvider provider = new PropertyBasedRecommenderProvider(calculator, inventory);
         final ItemBasedRecommender recommender = provider.getRecommender(minWeight, maxWeight);
 
         final DataSet actualDataSet = recommender.getDataSet();
-        final double[][] nonWeightedExpectedDataSet = new double[][]{
+        double[][] nonWeightedExpectedDataSet = new double[][]{
                 new double[]{0, 0.7071, 0},
                 new double[]{0.7071, 0, 0},
                 new double[]{0, 0, 0}
@@ -59,7 +61,7 @@ public class PropertyBasedRecommenderProviderTest {
 
     @Test
     public void testLikelihoodsNotUnderZero() {
-        final PropertyBasedRecommenderProvider provider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
+        final PropertyBasedRecommenderProvider provider = new PropertyBasedRecommenderProvider(calculator, inventory);
         final ItemBasedRecommender recommender = provider.getRecommender(-2, -1);
         final double[][] dataset = recommender.getDataSet().getData().getMatrix().toRawCopy2D();
         assert Arrays.stream(dataset).noneMatch(row -> Arrays.stream(row).anyMatch(x -> x < 0));

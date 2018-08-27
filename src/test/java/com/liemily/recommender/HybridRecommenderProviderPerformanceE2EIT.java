@@ -3,16 +3,15 @@ package com.liemily.recommender;
 import com.liemily.entity.Inventory;
 import com.liemily.entity.UserHistory;
 import com.liemily.generator.EntityGenerator;
+import com.liemily.math.Calculator;
 import com.liemily.math.Matrix;
-import com.liemily.math.MatrixCalculator;
-import com.liemily.math.VectorCalculator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class HybridRecommenderProviderPerformanceE2EIT {
     private static int timeout;
     private static Inventory inventory;
-    private static MatrixCalculator matrixCalculator;
+    private static Calculator calculator;
 
     private static PropertyBasedRecommenderProvider propertyBasedRecommenderProvider;
     private static SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider;
@@ -21,13 +20,13 @@ public class HybridRecommenderProviderPerformanceE2EIT {
     public static void setupBeforeClass() {
         timeout = 60000;
         inventory = new EntityGenerator().generateInventory(10000, 20);
-        matrixCalculator = new MatrixCalculator();
+        calculator = new Calculator();
 
-        propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new VectorCalculator(), inventory);
+        propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new Calculator(), inventory);
         successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new UserHistory());
     }
 
-    @Test(timeout = 180000)
+    @Test(timeout = 120000)
     public void testGetPropertyBasedRecommenderTime() {
         long start = System.currentTimeMillis();
         propertyBasedRecommenderProvider.getRecommender(0.0001, 0.0002);
@@ -35,7 +34,7 @@ public class HybridRecommenderProviderPerformanceE2EIT {
         assert start - end < timeout;
     }
 
-    @Test(timeout = 180000)
+    @Test(timeout = 120000)
     public void testGetSuccessiveCollaborativeRecommenderTime() throws Exception {
         final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new UserHistory());
 
@@ -45,10 +44,10 @@ public class HybridRecommenderProviderPerformanceE2EIT {
         assert start - end < timeout;
     }
 
-    @Test(timeout = 180000)
+    @Test(timeout = 240000)
     public void testGetHybridRecommenderTime() throws Exception {
         final ItemBasedRecommender[] recommenders = new ItemBasedRecommender[]{propertyBasedRecommenderProvider.getRecommender(0.0001, 0.0002), successiveCollaborativeRecommenderProvider.getRecommender(0.0001, 0.0002)};
-        final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(inventory, recommenders, matrixCalculator);
+        final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(inventory, recommenders, calculator);
 
         long start = System.currentTimeMillis();
         hybridRecommenderProvider.getRecommender(0.0001, 0.0002);
@@ -57,11 +56,11 @@ public class HybridRecommenderProviderPerformanceE2EIT {
     }
 
     @Test(timeout = 180000)
-    public void testMatrixMultiplication() {
-        final Matrix m = propertyBasedRecommenderProvider.getRecommender(0.0001, 0.0002).getDataSet().getData();
+    public void testMatrixMultiplication() throws Exception {
+        final Matrix m = successiveCollaborativeRecommenderProvider.getRecommender(0.0001, 0.0002).getDataSet().getData();
 
         long start = System.currentTimeMillis();
-        matrixCalculator.multiply(m, m);
+        calculator.multiply(m, m);
         long end = System.currentTimeMillis();
         assert start - end < timeout;
     }

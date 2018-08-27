@@ -4,9 +4,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- * Created by Emily Li on 05/08/2018.
- */
 public class UserHistoryServiceTest {
     private static UserHistoryService userHistoryService;
 

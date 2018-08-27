@@ -24,8 +24,4 @@ public class ItemBasedRecommender {
     public DataSet getDataSet() {
         return dataSet;
     }
-
-    double sigmoid(final double x) {
-        return 1 / (1 + Math.exp(-x));
-    }
 }

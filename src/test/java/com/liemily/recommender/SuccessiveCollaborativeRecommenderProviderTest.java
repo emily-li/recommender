@@ -4,6 +4,7 @@ import com.liemily.entity.Inventory;
 import com.liemily.entity.Item;
 import com.liemily.entity.UserHistory;
 import com.liemily.exception.RecommenderException;
+import com.liemily.math.Calculator;
 import com.liemily.math.Matrix;
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,7 +27,7 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
 
     @Before
     public void setup() {
-        recommender = new SuccessiveCollaborativeRecommender(dataSet);
+        recommender = new SuccessiveCollaborativeRecommender(dataSet, new Calculator());
     }
 
     @Test
@@ -34,7 +35,7 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
         final UserHistory userHistory = new UserHistory(new String[]{inventory.get(0).getId(), inventory.get(3).getId()}, new String[]{inventory.get(1).getId(), inventory.get(2).getId()});
 
         final SuccessiveCollaborativeRecommenderProvider recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory);
-        recommender = recommenderProvider.getRecommender(0, 1);
+        recommender = recommenderProvider.getRecommender(1.01, 1.02);
 
         assert (inventory.get(2).getId().equals(recommender.getRecommendation(inventory.get(0).getId())) || inventory.get(1).getId().equals(recommender.getRecommendation(inventory.get(0).getId())));
         assert (inventory.get(2).getId().equals(recommender.getRecommendation(inventory.get(3).getId())) || inventory.get(1).getId().equals(recommender.getRecommendation(inventory.get(3).getId())));
@@ -46,7 +47,7 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
         final UserHistory userHistory2 = new UserHistory(new String[]{inventory.get(0).getId(), inventory.get(1).getId()}, new String[]{inventory.get(2).getId()});
 
         final SuccessiveCollaborativeRecommenderProvider recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory1, userHistory2);
-        recommender = recommenderProvider.getRecommender(0, 1);
+        recommender = recommenderProvider.getRecommender(1, 1.5);
 
         String recForThirdItem = recommender.getRecommendation(inventory.get(2).getId());
 
