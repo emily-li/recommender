@@ -1,8 +1,0 @@
-A clustering mechanism is proposed to suggest items that are likely to follow such a purchase.
-
-This project should use both CF and CB, where CB is utilised to pad information regarding the items to aid in developing relationships. 
-
-Tests:
-    • Producing a simplistic end-to-end RS that may not address the project goal but will allow a throughput by which a high-level implementation can be tested
-    • Adding individual units of features to the RS to build up the implementation
-    • Both automated unit tests and end-to-end tests should be written in each developmental stage
