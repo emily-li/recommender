@@ -55,10 +55,7 @@ public class HybridRecommenderTrainer {
             }
         }
 
-        final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(
-                inventory,
-                new ItemBasedRecommender[]{propertyRecommender, successiveRecommender},
-                calculator);
+        final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(inventory, calculator, successiveRecommender, propertyRecommender);
         return hybridRecommenderProvider.getRecommender(1.0001, 1.0002);
     }
 

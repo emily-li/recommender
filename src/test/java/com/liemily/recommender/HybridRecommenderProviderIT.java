@@ -23,11 +23,9 @@ public class HybridRecommenderProviderIT {
         final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistories);
 
         final ItemBasedRecommender hybridRecommender = new HybridRecommenderProvider(inventory,
-                new ItemBasedRecommender[]{
-                        propertyBasedRecommenderProvider.getRecommender(1.0001, 1.0002),
-                        successiveCollaborativeRecommenderProvider.getRecommender(1.0001, 1.0002)
-                },
-                calculator)
+                calculator,
+                successiveCollaborativeRecommenderProvider.getRecommender(1.0001, 1.0002),
+                propertyBasedRecommenderProvider.getRecommender(1.0001, 1.0002))
                 .getRecommender(1.00001, 1.0002);
 
         final Collection<UserHistory> userHistoriesWithMultOrders = new ArrayList<>();

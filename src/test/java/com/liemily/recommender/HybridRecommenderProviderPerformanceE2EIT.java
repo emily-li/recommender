@@ -46,8 +46,9 @@ public class HybridRecommenderProviderPerformanceE2EIT {
 
     @Test(timeout = 240000)
     public void testGetHybridRecommenderTime() throws Exception {
-        final ItemBasedRecommender[] recommenders = new ItemBasedRecommender[]{propertyBasedRecommenderProvider.getRecommender(0.0001, 0.0002), successiveCollaborativeRecommenderProvider.getRecommender(0.0001, 0.0002)};
-        final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(inventory, recommenders, calculator);
+        final SuccessiveCollaborativeRecommender successiveCollaborativeRecommender = successiveCollaborativeRecommenderProvider.getRecommender(0.0001, 0.0002);
+        final ItemBasedRecommender auxRecommender = propertyBasedRecommenderProvider.getRecommender(0.0001, 0.0002);
+        final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(inventory, calculator, successiveCollaborativeRecommender, auxRecommender);
 
         long start = System.currentTimeMillis();
         hybridRecommenderProvider.getRecommender(0.0001, 0.0002);
