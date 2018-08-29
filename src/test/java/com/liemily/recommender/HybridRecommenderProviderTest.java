@@ -18,7 +18,7 @@ public class HybridRecommenderProviderTest {
 
     @BeforeClass
     public static void setupBeforeClass() {
-        inventory = new Inventory(new Item("item1"), new Item("item2"), new Item("item3"));
+        inventory = new Inventory(new Item("item0"), new Item("item1"), new Item("item2"));
         calculator = new Calculator();
         successiveCollaborativeRecommender = new SuccessiveCollaborativeRecommender(new DataSet(inventory.getIds(), new Matrix(new double[][]{
                         new double[]{0.1, 0.2, 0.3},
@@ -37,7 +37,7 @@ public class HybridRecommenderProviderTest {
         })));
         final HybridRecommenderProvider recommenderProvider = new HybridRecommenderProvider(inventory, calculator, successiveCollaborativeRecommender, itemBasedRecommender);
         final String rec = recommenderProvider.getRecommender(0.0001, 0.0002).getRecommendation(inventory.get(0).getId());
-        assertEquals(inventory.get(1).getId(), rec);
+        assertEquals(inventory.get(0).getId(), rec);
     }
 
     @Test

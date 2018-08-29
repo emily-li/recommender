@@ -22,7 +22,7 @@ public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
 
             double likelihood = getDataSet().get(current, item);
             if (Arrays.asList(previous).indexOf(item) >= 0) {
-                likelihood++;
+                likelihood *= 1.5;
             } else {
                 likelihood--;
             }

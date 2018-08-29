@@ -9,6 +9,10 @@ public class Calculator {
         return 1 / (1 + Math.exp(-x));
     }
 
+    public double reverseSigmoid(final double x) {
+        return Math.log(x / (1 - x));
+    }
+
     public double cosineSimilarity(final double[] v1, final double[] v2) {
         return 1 - cosineDistance(v1, v2);
     }

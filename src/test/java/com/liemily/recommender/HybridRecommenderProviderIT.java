@@ -20,7 +20,7 @@ public class HybridRecommenderProviderIT {
         final UserHistory[] userHistories = entityGenerator.generateUserHistories(1000, 5, inventory);
 
         final PropertyBasedRecommenderProvider propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(calculator, inventory);
-        final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistories);
+        final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new Calculator(), userHistories);
 
         final ItemBasedRecommender hybridRecommender = new HybridRecommenderProvider(inventory,
                 calculator,

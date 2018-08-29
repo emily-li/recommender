@@ -23,6 +23,11 @@ public class Matrix {
         return col.toRawCopy1D();
     }
 
+    public double[] getRow(int colIdx) {
+        final BasicMatrix row = matrix.selectRows(colIdx);
+        return row.toRawCopy1D();
+    }
+
     public void set(final int rowIdx, final int colIdx, final double val) {
         final double[][] raw = matrix.toRawCopy2D();
         raw[rowIdx][colIdx] = val;

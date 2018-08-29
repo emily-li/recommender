@@ -23,7 +23,7 @@ public class HybridRecommenderProviderPerformanceE2EIT {
         calculator = new Calculator();
 
         propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(new Calculator(), inventory);
-        successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new UserHistory());
+        successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new Calculator(), new UserHistory());
     }
 
     @Test(timeout = 120000)
@@ -36,7 +36,7 @@ public class HybridRecommenderProviderPerformanceE2EIT {
 
     @Test(timeout = 120000)
     public void testGetSuccessiveCollaborativeRecommenderTime() throws Exception {
-        final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new UserHistory());
+        final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new Calculator(), new UserHistory());
 
         long start = System.currentTimeMillis();
         successiveCollaborativeRecommenderProvider.getRecommender(0.0001, 0.0002);

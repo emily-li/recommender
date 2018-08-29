@@ -21,7 +21,7 @@ public class DataSet {
 
     public double[] get(String item) throws NoSuchFieldException {
         final int idx = getIndex(item);
-        return data.getCol(idx);
+        return data.getRow(idx);
     }
 
     public String[] getHeader() {

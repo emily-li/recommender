@@ -20,7 +20,7 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
 
     @BeforeClass
     public static void setupBeforeClass() {
-        inventory = new Inventory(new Item("fooItem"), new Item("barItem"), new Item("someItem"), new Item("otherItem"));
+        inventory = new Inventory(new Item("fooItem0"), new Item("barItem1"), new Item("someItem2"), new Item("otherItem3"));
         final double[][] data = new double[inventory.getInventory().length][inventory.getInventory().length];
         dataSet = new DataSet(inventory.getIds(), new Matrix(data));
     }
@@ -34,12 +34,13 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
     public void testGetRecommenderGivenUserHistory() throws Exception {
         final UserHistory userHistory = new UserHistory(new String[]{inventory.get(0).getId(), inventory.get(3).getId()}, new String[]{inventory.get(1).getId(), inventory.get(2).getId()});
 
-        final SuccessiveCollaborativeRecommenderProvider recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory);
+        final SuccessiveCollaborativeRecommenderProvider recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new Calculator(), userHistory);
         recommender = recommenderProvider.getRecommender(1.01, 1.02);
 
-        final String fooRecommendation = recommender.getRecommendation(inventory.get(0).getId());
-        assert (inventory.get(2).getId().equals(fooRecommendation)) || inventory.get(1).getId().equals(recommender.getRecommendation(fooRecommendation));
-        assert (inventory.get(2).getId().equals(recommender.getRecommendation(inventory.get(3).getId())) || inventory.get(1).getId().equals(recommender.getRecommendation(inventory.get(3).getId())));
+        final String barRec = recommender.getRecommendation(inventory.get(1).getId());
+        assert (inventory.get(0).getId().equals(barRec)) || inventory.get(3).getId().equals(barRec);
+        final String someRec = recommender.getRecommendation(inventory.get(2).getId());
+        assert (inventory.get(0).getId().equals(someRec)) || inventory.get(3).getId().equals(someRec);
     }
 
     @Test
@@ -47,11 +48,10 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
         final UserHistory userHistory1 = new UserHistory(new String[]{inventory.get(0).getId()}, new String[]{inventory.get(2).getId()});
         final UserHistory userHistory2 = new UserHistory(new String[]{inventory.get(0).getId(), inventory.get(1).getId()}, new String[]{inventory.get(2).getId()});
 
-        final SuccessiveCollaborativeRecommenderProvider recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory1, userHistory2);
-        recommender = recommenderProvider.getRecommender(1, 1.5);
+        final SuccessiveCollaborativeRecommenderProvider recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new Calculator(), userHistory1, userHistory2);
+        recommender = recommenderProvider.getRecommender(1.01, 1.02);
 
         String recForThirdItem = recommender.getRecommendation(inventory.get(2).getId());
-
         Assert.assertEquals(inventory.get(0).getId(), recForThirdItem);
     }
 
@@ -86,8 +86,8 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
 
     @Test(expected = RecommenderException.class)
     public void testExceptionThrownWhenUserHistoryContainsInvalidSucceededItem() throws Exception {
-        final UserHistory userHistory = new UserHistory(new String[]{"invalidItem"}, new String[]{inventory.get(0).getId()});
-        final SuccessiveCollaborativeRecommenderProvider provider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory);
+        final UserHistory userHistory = new UserHistory(new String[]{inventory.get(0).getId()}, new String[]{"invalidItem"});
+        final SuccessiveCollaborativeRecommenderProvider provider = new SuccessiveCollaborativeRecommenderProvider(inventory, new Calculator(), userHistory);
         provider.getRecommender(0, 1);
     }
 
