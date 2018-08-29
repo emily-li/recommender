@@ -37,7 +37,8 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
         final SuccessiveCollaborativeRecommenderProvider recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistory);
         recommender = recommenderProvider.getRecommender(1.01, 1.02);
 
-        assert (inventory.get(2).getId().equals(recommender.getRecommendation(inventory.get(0).getId())) || inventory.get(1).getId().equals(recommender.getRecommendation(inventory.get(0).getId())));
+        final String fooRecommendation = recommender.getRecommendation(inventory.get(0).getId());
+        assert (inventory.get(2).getId().equals(fooRecommendation)) || inventory.get(1).getId().equals(recommender.getRecommendation(fooRecommendation));
         assert (inventory.get(2).getId().equals(recommender.getRecommendation(inventory.get(3).getId())) || inventory.get(1).getId().equals(recommender.getRecommendation(inventory.get(3).getId())));
     }
 

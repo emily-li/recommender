@@ -6,9 +6,6 @@ import com.liemily.exception.RecommenderException;
 import com.liemily.math.Calculator;
 import com.liemily.math.Matrix;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SuccessiveCollaborativeRecommenderProvider implements RecommenderProvider {
@@ -35,20 +32,22 @@ public class SuccessiveCollaborativeRecommenderProvider implements RecommenderPr
         final DataSet dataSet = new DataSet(itemIds, new Matrix(weightedDataSet));
         final SuccessiveCollaborativeRecommender recommender = new SuccessiveCollaborativeRecommender(dataSet, new Calculator());
 
-        final List<String[]> orders = new ArrayList<>();
-        for (final UserHistory userHistory : userHistories) {
-            final String[][] orderHistory = userHistory.getOrderHistory();
-            Collections.addAll(orders, orderHistory);
-        }
+        registerSuccessiveOrders(recommender);
+        return recommender;
+    }
+
+    public void registerSuccessiveOrders(final SuccessiveCollaborativeRecommender successiveCollaborativeRecommender) throws RecommenderException {
         try {
-            for (int i = 0; i < orders.size() - 1; i++) {
-                for (int j = 0; j < orders.get(i).length; j++) {
-                    recommender.registerSuccessiveItem(orders.get(i)[j], orders.get(i + 1));
+            for (UserHistory userHistory : userHistories) {
+                String[][] orders = userHistory.getOrderHistory();
+                for (int i = 0; i < orders.length - 1; i++) {
+                    for (int j = 0; j < orders[i].length; j++) {
+                        successiveCollaborativeRecommender.registerSuccessiveItem(orders[i][j], orders[i + 1]);
+                    }
                 }
             }
         } catch (final NoSuchFieldException e) {
             throw new RecommenderException(e);
         }
-        return recommender;
     }
 }
