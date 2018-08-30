@@ -7,7 +7,8 @@ import com.liemily.entity.UserHistoryService;
 import com.liemily.math.Calculator;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
 
 public class HybridRecommenderTrainerIT {
     @Test
@@ -54,22 +55,5 @@ public class HybridRecommenderTrainerIT {
         final double[] trainedPrecisions = new double[100];
         hybridRecommenderTrainer.getPrecisions(hybridRecommender, validRecommendations, untrainedPrecisions, trainedPrecisions);
         assert calculator.tTest(untrainedPrecisions, trainedPrecisions) < 0.05;
-    }
-
-    private Map<String, Collection<String>> getValidRecommendations(final UserHistory[] userHistories) {
-        final Map<String, Collection<String>> validRecommendations = new HashMap<>();
-        for (final UserHistory userHistory : userHistories) {
-            final String[][] orderHistory = userHistory.getOrderHistory();
-
-            for (int i = 0; i < orderHistory.length - 1; i++) {
-                final String[] order = orderHistory[i];
-
-                for (String item : order) {
-                    validRecommendations.computeIfAbsent(item, x -> new HashSet<>());
-                    validRecommendations.get(item).addAll(Arrays.asList(orderHistory[i + 1]));
-                }
-            }
-        }
-        return validRecommendations;
     }
 }

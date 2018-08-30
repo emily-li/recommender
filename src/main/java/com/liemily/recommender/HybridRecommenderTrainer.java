@@ -5,9 +5,7 @@ import com.liemily.entity.UserHistory;
 import com.liemily.exception.RecommenderException;
 import com.liemily.math.Calculator;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 public class HybridRecommenderTrainer {
     private final Calculator calculator;
@@ -57,6 +55,23 @@ public class HybridRecommenderTrainer {
 
         final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(inventory, calculator, successiveRecommender, propertyRecommender);
         return hybridRecommenderProvider.getRecommender(1.0001, 1.0002);
+    }
+
+    public Map<String, Collection<String>> getValidRecommendations(final UserHistory[] userHistories) {
+        final Map<String, Collection<String>> validRecommendations = new HashMap<>();
+        for (final UserHistory userHistory : userHistories) {
+            final String[][] orderHistory = userHistory.getOrderHistory();
+
+            for (int i = 0; i < orderHistory.length - 1; i++) {
+                final String[] order = orderHistory[i];
+
+                for (String item : order) {
+                    validRecommendations.computeIfAbsent(item, x -> new HashSet<>());
+                    validRecommendations.get(item).addAll(Arrays.asList(orderHistory[i + 1]));
+                }
+            }
+        }
+        return validRecommendations;
     }
 
     void getPrecisions(final ItemBasedRecommender hybridRecommender,
