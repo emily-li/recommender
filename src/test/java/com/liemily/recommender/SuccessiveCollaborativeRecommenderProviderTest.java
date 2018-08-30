@@ -1,8 +1,6 @@
 package com.liemily.recommender;
 
-import com.liemily.entity.Inventory;
-import com.liemily.entity.Item;
-import com.liemily.entity.UserHistory;
+import com.liemily.entity.*;
 import com.liemily.exception.RecommenderException;
 import com.liemily.math.Calculator;
 import com.liemily.math.Matrix;
@@ -98,6 +96,20 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
         }
         final double[][] dataSet = recommender.getDataSet().getData().getMatrix().toRawCopy2D();
         assert Arrays.stream(dataSet).noneMatch(row -> Arrays.stream(row).anyMatch(x -> x < 0));
+    }
+
+    @Test
+    public void testOnRealSubset() throws Exception {
+        final InventoryService inventoryService = new InventoryService();
+        final Inventory inventory = inventoryService.getInventory("src/test/resources/hybridSubsetInventory.txt");
+
+        final UserHistoryService userHistoryService = new UserHistoryService();
+        final UserHistory[] userHistories = userHistoryService.getUserHistories("src/test/resources/hybridSubsetUserHistories.txt");
+
+        final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new Calculator(), userHistories);
+        final ItemBasedRecommender recommender = successiveCollaborativeRecommenderProvider.getRecommender(0.1, 0.2);
+        //recommender.getDataSet().get()
+        throw new UnsupportedOperationException();
     }
 
     private double getLikelihood(ItemBasedRecommender recommender, String item, String previousItem) throws NoSuchFieldException {

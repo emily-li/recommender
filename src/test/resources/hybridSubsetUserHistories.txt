@@ -1,0 +1,7 @@
+user_id,order_id,item
+1,1,SteelSeries 5H v2 Black Headset with Microphone
+1,2,Antex ST4 Soldering Iron Stand
+1,2,20W High Quality Mains Powered Soldering Iron
+1,2,Antex Lead Free 0.8mm Solder 2 Metre Length
+1,2,Green Antistatic Desoldering Pump
+1,3,Western Digital WD3200BEVE 320GB 2.5" Hard Drive ATA100 5400rpm 8MB Cache - OEM Scorpio Blue
