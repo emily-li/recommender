@@ -21,8 +21,7 @@ public class SuccessiveCollaborativeRecommenderTrainerIT {
         final UserHistoryService userHistoryService = new UserHistoryService();
         final UserHistory[] userHistories = userHistoryService.getUserHistories("src/test/resources/hybridSubsetUserHistories.txt");
 
-        final SuccessiveCollaborativeRecommenderProvider provider = new SuccessiveCollaborativeRecommenderProvider(inventory, calculator, userHistories);
-        final SuccessiveCollaborativeRecommenderTrainer trainer = new SuccessiveCollaborativeRecommenderTrainer(inventory, calculator, provider);
+        final SuccessiveCollaborativeRecommenderTrainer trainer = new SuccessiveCollaborativeRecommenderTrainer(inventory, calculator);
         final Map<String, Collection<String>> validRecommendations = trainer.getValidRecommendations(userHistories);
         final ItemBasedRecommender recommender = trainer.getTrainedRecommender(validRecommendations, userHistories, 0.5, 10);
 

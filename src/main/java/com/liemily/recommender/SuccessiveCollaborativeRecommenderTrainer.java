@@ -10,27 +10,25 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SuccessiveCollaborativeRecommenderTrainer extends RecommenderTrainer {
-    private final SuccessiveCollaborativeRecommenderProvider provider;
     private final Calculator calculator;
 
     public SuccessiveCollaborativeRecommenderTrainer(final Inventory inventory,
-                                                     final Calculator calculator,
-                                                     final SuccessiveCollaborativeRecommenderProvider provider) {
+                                                     final Calculator calculator) {
         super(inventory);
         this.calculator = calculator;
-        this.provider = provider;
     }
 
     @Override
-    public SuccessiveCollaborativeRecommender getTrainedRecommender(Map<String, Collection<String>> validRecommendations, UserHistory[] userHistories, double significance, int retries) throws RecommenderException {
+    public SuccessiveCollaborativeRecommender getTrainedRecommender(final Map<String, Collection<String>> validRecommendations, final UserHistory[] userHistories, final double significance, final int retries) throws RecommenderException {
         final double minWeight = ThreadLocalRandom.current().nextDouble(1.001, 1.05);
         final double maxWeight = ThreadLocalRandom.current().nextDouble(minWeight + 0.001, 1.2);
 
         for (int i = 0; i < retries; i++) {
-            final double[] untrainedPrecisions = new double[100];
             final double[] trainedPrecisions = new double[100];
+            final double[] untrainedPrecisions = new double[100];
 
-            SuccessiveCollaborativeRecommender recommender = provider.getRecommender(minWeight, maxWeight);
+            final SuccessiveCollaborativeRecommenderProvider provider = new SuccessiveCollaborativeRecommenderProvider(getInventory(), calculator, userHistories);
+            final SuccessiveCollaborativeRecommender recommender = provider.getRecommender(minWeight, maxWeight);
             getPrecisions(recommender, validRecommendations, untrainedPrecisions, trainedPrecisions);
 
             if (calculator.tTest(untrainedPrecisions, trainedPrecisions) < significance) {
