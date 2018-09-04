@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Map;
 
 public class HybridRecommenderTrainerIT {
+
     @Test
     public void testHybridRecommenderPrecisionRealDataSubSet() throws Exception {
         final Calculator calculator = new Calculator();
@@ -22,10 +23,9 @@ public class HybridRecommenderTrainerIT {
 
         final PropertyBasedRecommenderProvider propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(calculator, inventory);
         final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new Calculator(), userHistories);
+
         final HybridRecommenderTrainer hybridRecommenderTrainer = new HybridRecommenderTrainer(calculator, inventory, propertyBasedRecommenderProvider, successiveCollaborativeRecommenderProvider);
-
-        final Map<String, Collection<String>> validRecommendations = getValidRecommendations(userHistories);
-
+        final Map<String, Collection<String>> validRecommendations = hybridRecommenderTrainer.getValidRecommendations(userHistories);
         final ItemBasedRecommender hybridRecommender = hybridRecommenderTrainer.getTrainedRecommender(validRecommendations, userHistories, 0.05, 10);
 
         final double[] untrainedPrecisions = new double[100];
@@ -47,7 +47,7 @@ public class HybridRecommenderTrainerIT {
         final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new Calculator(), userHistories);
         final HybridRecommenderTrainer hybridRecommenderTrainer = new HybridRecommenderTrainer(calculator, inventory, propertyBasedRecommenderProvider, successiveCollaborativeRecommenderProvider);
 
-        final Map<String, Collection<String>> validRecommendations = getValidRecommendations(userHistories);
+        final Map<String, Collection<String>> validRecommendations = hybridRecommenderTrainer.getValidRecommendations(userHistories);
 
         final ItemBasedRecommender hybridRecommender = hybridRecommenderTrainer.getTrainedRecommender(validRecommendations, userHistories, 0.05, 10);
 
