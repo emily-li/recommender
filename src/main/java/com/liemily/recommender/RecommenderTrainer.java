@@ -18,7 +18,7 @@ public abstract class RecommenderTrainer {
                                                                final double significance,
                                                                final int retries) throws RecommenderException;
 
-    public Map<String, Collection<String>> getValidRecommendations(final UserHistory[] userHistories) {
+    public Map<String, Collection<String>> getValidRecommendations(final UserHistory... userHistories) {
         final Map<String, Collection<String>> validRecommendations = new HashMap<>();
         for (final UserHistory userHistory : userHistories) {
             final String[][] orderHistory = userHistory.getOrderHistory();
@@ -28,7 +28,8 @@ public abstract class RecommenderTrainer {
 
                 for (String item : order) {
                     validRecommendations.computeIfAbsent(item, x -> new HashSet<>());
-                    validRecommendations.get(item).addAll(Arrays.asList(orderHistory[i + 1]));
+                    for (int j = i + 1; j < orderHistory.length; j++)
+                        validRecommendations.get(item).addAll(Arrays.asList(orderHistory[j]));
                 }
             }
         }
