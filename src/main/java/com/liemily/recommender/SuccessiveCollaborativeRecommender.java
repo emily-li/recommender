@@ -13,6 +13,15 @@ public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
         this.calculator = calculator;
     }
 
+    /**
+     * Method that registers a successive item against previous items.
+     * The likelihood for the successive item increases as a recommendation
+     * for each previous item.
+     *
+     * @param current  Successive item that will be more likely to purchase
+     * @param previous Items in previous orders
+     * @throws NoSuchFieldException
+     */
     public void registerSuccessiveItem(String current, String... previous) throws NoSuchFieldException {
         final String[] header = getDataSet().getHeader();
         final int currentItemIdx = getDataSet().getIndex(current);

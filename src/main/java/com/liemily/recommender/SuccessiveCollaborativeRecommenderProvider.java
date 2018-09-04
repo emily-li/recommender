@@ -45,7 +45,7 @@ public class SuccessiveCollaborativeRecommenderProvider implements RecommenderPr
                 String[][] orders = userHistory.getOrderHistory();
                 for (int i = 1; i < orders.length; i++) {
                     for (int j = 0; j < orders[i].length; j++) {
-                        for (int k = i - 1; k >= 0; k--) {
+                        for (int k = 0; k < i; k++) {
                             successiveCollaborativeRecommender.registerSuccessiveItem(orders[i][j], orders[k]);
                         }
                     }

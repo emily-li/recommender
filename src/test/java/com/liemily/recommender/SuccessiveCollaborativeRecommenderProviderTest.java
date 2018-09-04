@@ -6,17 +6,19 @@ import com.liemily.entity.UserHistory;
 import com.liemily.exception.RecommenderException;
 import com.liemily.math.Calculator;
 import com.liemily.math.Matrix;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
 
+import static org.junit.Assert.assertEquals;
+
 public class SuccessiveCollaborativeRecommenderProviderTest {
-    private static SuccessiveCollaborativeRecommender recommender;
     private static Inventory inventory;
     private static DataSet dataSet;
+
+    private SuccessiveCollaborativeRecommender recommender;
 
     @BeforeClass
     public static void setupBeforeClass() {
@@ -31,16 +33,28 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
     }
 
     @Test
+    public void testRegisterSuccessiveOrders() throws Exception {
+        String expectedRecommendation = inventory.get(0).getId();
+        String previousItem = inventory.get(1).getId();
+
+        double[] prevLikelihoods = recommender.getDataSet().get(previousItem);
+        recommender.registerSuccessiveItem(expectedRecommendation, previousItem);
+        double[] postLikelihoods = recommender.getDataSet().get(previousItem);
+
+        assert prevLikelihoods[0] < postLikelihoods[0];
+    }
+
+    @Test
     public void testGetRecommenderGivenUserHistory() throws Exception {
         final UserHistory userHistory = new UserHistory(new String[]{inventory.get(0).getId(), inventory.get(3).getId()}, new String[]{inventory.get(1).getId(), inventory.get(2).getId()});
 
         final SuccessiveCollaborativeRecommenderProvider recommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, new Calculator(), userHistory);
         recommender = recommenderProvider.getRecommender(1.01, 1.02);
 
-        final String barRec = recommender.getRecommendation(inventory.get(1).getId());
-        assert (inventory.get(0).getId().equals(barRec)) || inventory.get(3).getId().equals(barRec);
-        final String someRec = recommender.getRecommendation(inventory.get(2).getId());
-        assert (inventory.get(0).getId().equals(someRec)) || inventory.get(3).getId().equals(someRec);
+        final String item0Rec = recommender.getRecommendation(inventory.get(0).getId());
+        assert (inventory.get(1).getId().equals(item0Rec)) || inventory.get(2).getId().equals(item0Rec);
+        final String item3Rec = recommender.getRecommendation(inventory.get(3).getId());
+        assert (inventory.get(1).getId().equals(item3Rec)) || inventory.get(2).getId().equals(item3Rec);
     }
 
     @Test
@@ -52,7 +66,7 @@ public class SuccessiveCollaborativeRecommenderProviderTest {
         recommender = recommenderProvider.getRecommender(1.01, 1.02);
 
         String recForThirdItem = recommender.getRecommendation(inventory.get(2).getId());
-        Assert.assertEquals(inventory.get(0).getId(), recForThirdItem);
+        assertEquals(inventory.get(0).getId(), recForThirdItem);
     }
 
     @Test
