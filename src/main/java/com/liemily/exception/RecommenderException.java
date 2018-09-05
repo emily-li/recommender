@@ -5,7 +5,7 @@ public class RecommenderException extends Exception {
         super(message);
     }
 
-    public RecommenderException(Throwable cause) {
-        super(cause);
+    public RecommenderException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

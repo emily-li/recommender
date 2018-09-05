@@ -67,7 +67,7 @@ public abstract class RecommenderTrainer {
                         trainedFalsePositives++;
                     }
                 } catch (NoSuchFieldException e) {
-                    throw new RecommenderException(e);
+                    throw new RecommenderException("Invalid item", e);
                 }
             }
             untrainedPrecisions[j] = (untrainedTruePositives / (untrainedTruePositives + untrainedFalsePositives));

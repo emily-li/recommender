@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Main {
+public class RecommenderApp {
     public static void main(String[] args) throws Exception {
         if (args.length != 2) {
             throw new IllegalArgumentException("Invalid number of arguments. Arguments are '<inventoryFileLocation> <userHistoriesFileLocation>'");
@@ -39,10 +39,10 @@ public class Main {
                     final String input = scannedInput.nextLine();
                     final String[] inputArgs = input.split(" ");
 
-                    if (inputArgs.length != 1) {
-                        throw new IllegalArgumentException("Invalid number of arguments. Arguments are '<newly registered inventory item>");
+                    final String item = String.join(" ", inputArgs);
+                    if (inputArgs.length == 0 || item.trim().isEmpty()) {
+                        throw new IllegalArgumentException("No item provided. Please provide an inventory item as an argument.");
                     }
-                    final String item = inputArgs[0];
 
                     hybridRecommender.getSuccessiveCollaborativeRecommender().registerSuccessiveItem(item);
                     final HybridRecommenderProvider hybridRecommenderProvider = new HybridRecommenderProvider(inventory, calculator, hybridRecommender.getSuccessiveCollaborativeRecommender(), hybridRecommender.getAuxiliaryRecommenders());
@@ -51,7 +51,9 @@ public class Main {
 
                     System.out.println("Next recommended item is: " + recommendation);
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    e.printStackTrace();
+                    Thread.sleep(100);
+                    System.out.println("-----------------------");
                 }
             }
         }

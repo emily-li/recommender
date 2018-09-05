@@ -40,19 +40,15 @@ public class SuccessiveCollaborativeRecommenderProvider implements RecommenderPr
     }
 
     public void registerSuccessiveOrders(final SuccessiveCollaborativeRecommender successiveCollaborativeRecommender) throws RecommenderException {
-        try {
-            for (UserHistory userHistory : userHistories) {
-                String[][] orders = userHistory.getOrderHistory();
-                for (int i = 1; i < orders.length; i++) {
-                    for (int j = 0; j < orders[i].length; j++) {
-                        for (int k = 0; k < i; k++) {
-                            successiveCollaborativeRecommender.registerSuccessiveItem(orders[i][j], orders[k]);
-                        }
+        for (UserHistory userHistory : userHistories) {
+            String[][] orders = userHistory.getOrderHistory();
+            for (int i = 1; i < orders.length; i++) {
+                for (int j = 0; j < orders[i].length; j++) {
+                    for (int k = 0; k < i; k++) {
+                        successiveCollaborativeRecommender.registerSuccessiveItem(orders[i][j], orders[k]);
                     }
                 }
             }
-        } catch (final NoSuchFieldException e) {
-            throw new RecommenderException(e);
         }
     }
 }

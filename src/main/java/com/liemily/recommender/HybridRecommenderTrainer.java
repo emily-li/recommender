@@ -50,11 +50,7 @@ public class HybridRecommenderTrainer extends RecommenderTrainer {
             final String[][] orders = userHistory.getOrderHistory();
             for (int i = 1; i < orders.length; i++) {
                 for (int j = 0; j < orders[i].length; j++) {
-                    try {
                         successiveRecommender.registerSuccessiveItem(orders[i][j], orders[i - 1]);
-                    } catch (NoSuchFieldException e) {
-                        throw new RecommenderException(e);
-                    }
                 }
             }
         }
