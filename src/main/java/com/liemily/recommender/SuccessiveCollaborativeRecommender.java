@@ -2,7 +2,7 @@ package com.liemily.recommender;
 
 import com.liemily.math.Calculator;
 
-import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
     private Calculator calculator;
@@ -15,28 +15,33 @@ public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
 
     /**
      * Method that registers a successive item against previous items.
-     * The likelihood for the successive item increases as a recommendation
-     * for each previous item.
+     *
+     * The likelihood for the successive item increases as a recommendation for each previous item.
+     *
+     * The likelihood of other items decrease for each previous item.
      *
      * @param current  Successive item that will be more likely to purchase
      * @param previous Items in previous orders
      * @throws NoSuchFieldException
      */
     public void registerSuccessiveItem(String current, String... previous) throws NoSuchFieldException {
-        final String[] header = getDataSet().getHeader();
-        final int currentItemIdx = getDataSet().getIndex(current);
+        final int currItemIdx = getDataSet().getIndex(current);
 
-        for (int i = 0; i < header.length; i++) {
-            final String item = header[i];
+        for (final String prevItem : previous) {
+            final int prevItemIdx = getDataSet().getIndex(prevItem);
+            final double[] prevItemLikelihoods = getDataSet().getData().getRow(prevItemIdx);
+            for (int i = 0; i < prevItemLikelihoods.length; i++) {
+                double likelihood = prevItemLikelihoods[i];
 
-            double likelihood = getDataSet().get(current, item);
-            if (Arrays.asList(previous).indexOf(item) >= 0) {
-                likelihood *= 1.5;
-            } else {
-                likelihood--;
+                if (i == currItemIdx) {
+                    likelihood += 0.001;
+                    likelihood = likelihood > 1 ? ThreadLocalRandom.current().nextDouble(0.9, 0.999) : likelihood;
+                } else {
+                    likelihood -= 0.001;
+                    likelihood = likelihood < 0 ? ThreadLocalRandom.current().nextDouble(0.001, 0.1) : likelihood;
+                }
+                getDataSet().getData().set(prevItemIdx, i, likelihood);
             }
-            likelihood = calculator.sigmoid(likelihood);
-            getDataSet().getData().set(currentItemIdx, i, likelihood);
         }
     }
 }
