@@ -1,8 +1,18 @@
 package com.liemily.recommender;
 
+import com.liemily.entity.Inventory;
+import com.liemily.entity.InventoryService;
+import com.liemily.entity.UserHistory;
+import com.liemily.entity.UserHistoryService;
+import com.liemily.math.Calculator;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Scanner;
+
 public class Main {
-    public static void main(String[] args) {
-        /*if (args.length != 2) {
+    public static void main(String[] args) throws Exception {
+        if (args.length != 2) {
             throw new IllegalArgumentException("Invalid number of arguments. Arguments are '<inventoryFileLocation> <userHistoriesFileLocation>'");
         }
         final String inventoryFile = args[0];
@@ -15,11 +25,11 @@ public class Main {
         final UserHistory[] userHistories = userHistoryService.getUserHistories(userHistoriesFile);
 
         final PropertyBasedRecommenderProvider propertyBasedRecommenderProvider = new PropertyBasedRecommenderProvider(calculator, inventory);
-        final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, userHistories);
+        final SuccessiveCollaborativeRecommenderProvider successiveCollaborativeRecommenderProvider = new SuccessiveCollaborativeRecommenderProvider(inventory, calculator, userHistories);
         final HybridRecommenderTrainer hybridRecommenderTrainer = new HybridRecommenderTrainer(calculator, inventory, propertyBasedRecommenderProvider, successiveCollaborativeRecommenderProvider);
 
         final Map<String, Collection<String>> validRecommendations = hybridRecommenderTrainer.getValidRecommendations(userHistories);
-        HybridRecommender hybridRecommender = hybridRecommenderTrainer.getTrainedRecommender(validRecommendations, 0.05, 10);
+        HybridRecommender hybridRecommender = hybridRecommenderTrainer.getTrainedRecommender(validRecommendations, userHistories, 0.05, 10);
 
         try (final Scanner scannedInput = new Scanner(System.in)) {
             while (true) {
@@ -44,6 +54,6 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
             }
-        }*/
+        }
     }
 }

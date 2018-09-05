@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Map;
 
 public class SuccessiveCollaborativeRecommenderTrainerIT {
-    private static Calculator calculator = new Calculator();
+    private static final Calculator calculator = new Calculator();
 
     @Test
     public void testOnRealSubset() throws Exception {

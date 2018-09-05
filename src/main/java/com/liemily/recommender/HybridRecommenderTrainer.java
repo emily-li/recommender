@@ -5,7 +5,6 @@ import com.liemily.entity.UserHistory;
 import com.liemily.exception.RecommenderException;
 import com.liemily.math.Calculator;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -25,15 +24,15 @@ public class HybridRecommenderTrainer extends RecommenderTrainer {
     }
 
     @Override
-    public ItemBasedRecommender getTrainedRecommender(final Map<String, Collection<String>> validRecommendations,
-                                                      final UserHistory[] userHistories,
-                                                      final double significance,
-                                                      final int retries) throws RecommenderException {
+    public HybridRecommender getTrainedRecommender(final Map<String, Collection<String>> validRecommendations,
+                                                   final UserHistory[] userHistories,
+                                                   final double significance,
+                                                   final int retries) throws RecommenderException {
         for (int i = 0; i < retries; i++) {
             final double[] untrainedPrecisions = new double[100];
             final double[] trainedPrecisions = new double[100];
 
-            ItemBasedRecommender hybridRecommender = generateHybridRecommender(userHistories);
+            HybridRecommender hybridRecommender = generateHybridRecommender(userHistories);
             getPrecisions(hybridRecommender, validRecommendations, untrainedPrecisions, trainedPrecisions);
 
             if (calculator.tTest(untrainedPrecisions, trainedPrecisions) < significance) {
@@ -43,15 +42,16 @@ public class HybridRecommenderTrainer extends RecommenderTrainer {
         throw new RecommenderException(String.format("Failed to generate recommender with an s.d. less than %s given %d retries", significance, retries));
     }
 
-    private ItemBasedRecommender generateHybridRecommender(final UserHistory[] userHistories) throws RecommenderException {
+    private HybridRecommender generateHybridRecommender(final UserHistory[] userHistories) throws RecommenderException {
         final ItemBasedRecommender propertyRecommender = propertyBasedRecommenderProvider.getRecommender(1.0001, 1.0002);
         final SuccessiveCollaborativeRecommender successiveRecommender = successiveCollaborativeRecommenderProvider.getRecommender(1.0001, 1.0002);
 
         for (final UserHistory userHistory : userHistories) {
-            for (String[] orders : userHistory.getOrderHistory()) {
-                if (orders.length > 2) {
+            final String[][] orders = userHistory.getOrderHistory();
+            for (int i = 1; i < orders.length; i++) {
+                for (int j = 0; j < orders[i].length; j++) {
                     try {
-                        successiveRecommender.registerSuccessiveItem(orders[orders.length - 1], Arrays.copyOf(orders, orders.length - 2));
+                        successiveRecommender.registerSuccessiveItem(orders[i][j], orders[i - 1]);
                     } catch (NoSuchFieldException e) {
                         throw new RecommenderException(e);
                     }

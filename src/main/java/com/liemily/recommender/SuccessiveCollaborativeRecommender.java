@@ -5,7 +5,7 @@ import com.liemily.math.Calculator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
-    private Calculator calculator;
+    private final Calculator calculator;
 
     public SuccessiveCollaborativeRecommender(final DataSet dataSet,
                                               final Calculator calculator) {

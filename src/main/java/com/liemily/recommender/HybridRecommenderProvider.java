@@ -6,30 +6,30 @@ import com.liemily.math.Matrix;
 
 public class HybridRecommenderProvider implements RecommenderProvider {
     private final Inventory inventory;
-    private SuccessiveCollaborativeRecommender successiveCollaborativeRecommender;
-    private ItemBasedRecommender auxiliaryRecommender;
+    private final SuccessiveCollaborativeRecommender successiveCollaborativeRecommender;
+    private final ItemBasedRecommender[] auxiliaryRecommenders;
     private final Calculator calculator;
 
     public HybridRecommenderProvider(final Inventory inventory,
                                      final Calculator calculator,
                                      final SuccessiveCollaborativeRecommender successiveCollaborativeRecommender,
-                                     final ItemBasedRecommender auxiliaryRecommender) {
+                                     final ItemBasedRecommender... auxiliaryRecommenders) {
         this.inventory = inventory;
         this.calculator = calculator;
         this.successiveCollaborativeRecommender = successiveCollaborativeRecommender;
-        this.auxiliaryRecommender = auxiliaryRecommender;
+        this.auxiliaryRecommenders = auxiliaryRecommenders;
     }
 
     @Override
     public HybridRecommender getRecommender(double weightMin, double weightMax) {
         final DataSet dataSet = combineDatasets();
-        return new HybridRecommender(dataSet, successiveCollaborativeRecommender, new ItemBasedRecommender[]{auxiliaryRecommender});
+        return new HybridRecommender(dataSet, successiveCollaborativeRecommender, auxiliaryRecommenders);
     }
 
     private DataSet combineDatasets() {
         Matrix probabilities = successiveCollaborativeRecommender.getDataSet().getData();
 
-        for (final ItemBasedRecommender recommender : new ItemBasedRecommender[]{auxiliaryRecommender}) {
+        for (final ItemBasedRecommender recommender : auxiliaryRecommenders) {
             final DataSet dataSet = recommender.getDataSet();
             probabilities = calculator.add(probabilities, dataSet.getData());
         }
