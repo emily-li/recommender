@@ -1,0 +1,112 @@
+09/11
+Read FDM90 requirements
+Drafted timetable of submission report template
+
+15/11
+Drafted project proposal for recommender system for computer part shopping website
+Research shows potential for a lot of complexity, e.g.
+	- Tensors in recommender algorithms
+	- Cluster algorithms used for content building
+Will keep it simple as possible but there is potential for expansion
+
+20/11
+Began research for core algorithm
+Beyond different techniques based on different data sources, there is a vast number of techniques to implement these. Additionally, ther is a known lack of consistent measurements for success.
+
+23/11
+Unsure of additonal 'bureaucratic' steps at the moment. Have provided project proposal and e-mail of confirmation from Goran but no formal e-mail/sign off to continue work. Following up.
+Started Project Brief document to expand on Project Proposal and mapped out planned documentation of work against timetable.
+Still no concrete concept of underlying algorithm but should be better when detailing background research in Project Brief.
+
+27/11
+Continued research on data types for information filtering. Progress slower than desired. Difficult to quantify what I have already quantified for some grating reason. Cross-domain filtering may provide ideas for categorising products.
+
+18/12
+Research still ongoing. Have completed desired background overview. Given this overview, should be able to analyse project problem and brainstorm technical solution.
+
+01/01
+Project Brief keeps expanding but can move sections to Functional Requirements and Technical Design. Found Amazon papers on item-to-item CF which should have parallels to the project's timed sequence based approach.
+Broke down project deliverables to a few achievable milestones similar to first year project. Additionally put emphasis on test time and automatic generation of test sets to counter possibility of insufficient testing of training as met in the first project.
+
+04/01
+Completed initial documentation excluding Technical Design. Have allocated 2 months, which sounds like a long time for one document but I believe it is appropriate as it also covers POC implementation.
+Documentation is currently lacking in pictures... may be able to introduce some light level designs as POCs give some light. Ambiguous at the moment due to variety of possible implementations.
+
+08/01
+Separated processing of RS into online and offline components. POC of model-based CF started to assist technical design.
+
+25/01
+Developing model-based CF as POC. Did not previously consider data-related dependencies, e.g. Spark dataframes to emulate scipy/R-like capabilities but should be able to explore these with this or some from POC to see what is more performant. Currently just using matrix arrays, e.g. String[][]
+
+01/02
+Was trying to get through the POC quickly and cover various recommender algorithms. However, architectural issues are hard to ignore and require focus. Hopefully should be a one-off for the first POC.
+
+05/02
+Completed POC data processing without dependencies and can thus compare architecture and performance with available libraries.
+
+16/02
+Moved onto creating similarity/distance checks with the cosine metric. Developing the matrix methods now also means that these can be compared to available libraries.
+
+19/02
+Created some math functions for matrix mathematics to support distance algorithms. Unfortunate to do them without existing libraries, e.g. scipy/Apache Common Math. In terms of the latter, some but not all functionalities required are prsent. Can performance test for comparison.
+
+22/02
+Still creating matrix math functions. Writing the methods without using existing libraries is proving difficult. I am essentially just copying scipy code which is taking a while to understand. Also running Python math functions to assert my Java implementation is correct. Makes me wish I was using Python but know that this tends to lead me to write unreadable code.
+
+26/02
+Writing more complex math functions for matrix operations for similarity checks.
+
+01/03
+Similarity checks written so now writing functions to calculate the error/RMSE.
+
+05/03
+Adding SVD POC for memory-based model.
+
+08/03
+Really tried to implement SVD but now this is at a stage where this seems to complex to imitate. Creating simplified memory-based predictor - This also has shown some matrix methods were not implemented correctly in testing so updated.
+
+12/03
+Investigated libraries that could do matrix math better/take the pain of writing it myself. Wrote simple methods for multiplication and normalising matrices for matrix library comparison.
+
+15/03
+Added more complex methods from POC to comparison repo. However, some methods don't exist in the matrix libraries. Tried searching for alternatives but still could not find so needed to add own implementation using these libraries. 
+
+19/03
+Added performance tests. Did similar logic for first project so fairly familiar with syntax. Creating tests also helps explore how I could approach abstracting the library through some interface. Some results could be skewed because of the methods that I wrote utilising libraries as they are not 'purely' belonging to the library, i.e. I may have written bad code that makes the library seem worse than it is.
+
+22/03
+After analysing the results, added some optimisations to normalisation. Inclined to use EJML - Spent a lot of time trying to figure out how Python methods could be written in Java but EJML's evaluative language could help ease this pain. But not used to using it so might instead bring more complexity. OjAlgo is meant to be better but can't see that it is. May be due to dataset size or my computer's specs.
+
+26/03
+Updated technical documentation with analysis and have decided to go ahead with EJML keeping in mind that tests may show I might need to swap it out for some other library.
+
+29/03
+Struggling to figure out the algorithm for the recommender despite the POCs. I know how to implement information filtering but not necessarily how to apply it or combine these models. I am still looking up research and reading through previous research that I have found.
+
+05/04
+Still not clear on the specifics of the algorithm I want to use. However, not sure if this is the approach I want to take anyway. Specifying an algorithm at this stage essentially locks in the pseudo-code which doesn't seem very TDD. I have added a simple way that the algorithm can work and how two models can interact with each other to achieve the problem but have avoided specifics so these should hopefully be explored when doing TDD on functionality, especially as I plan on writing E2E tests early on.
+Also, now moving into April so want to stop Technical Design and start implementation. May be rushed decision but I also do not see benefit for further investigation.
+
+09/04
+Explored ideas for entity model utilising data model used in collaborative filtering POC. Not sure about using a Provider, which essentially acts as a factory but can only create one recommender, buta t the same time allows Recommender to be simpler and better abstracted. Also makes recommender more lightweight and am concerned with memory-usage after being bitten on the first project.
+
+12/04
+Going with a TDD approach for creating a successive based recommender. Currently likelihood simply increases or decreases by one rather than using typical recommender/linear regression/clustering/etc. algorithms. Started with simple functionality tests, i.e. test likelihood of recommendation increases given a purchase.
+
+16/04
+
+
+19/04
+
+
+23/04
+
+
+26/04
+
+
+30/04
+
+
+03/05
+
