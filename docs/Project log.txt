@@ -88,25 +88,121 @@ Still not clear on the specifics of the algorithm I want to use. However, not su
 Also, now moving into April so want to stop Technical Design and start implementation. May be rushed decision but I also do not see benefit for further investigation.
 
 09/04
-Explored ideas for entity model utilising data model used in collaborative filtering POC. Not sure about using a Provider, which essentially acts as a factory but can only create one recommender, buta t the same time allows Recommender to be simpler and better abstracted. Also makes recommender more lightweight and am concerned with memory-usage after being bitten on the first project.
+Explored ideas for entity model utilising data model used in collaborative filtering POC. 
+Not sure about using a Provider, which essentially acts as a factory but can only create one recommender, but at the same time allows Recommender to be simpler and better abstracted. 
+Also makes recommender more lightweight and am concerned with memory-usage after being bitten on the first project.
 
 12/04
-Going with a TDD approach for creating a successive based recommender. Currently likelihood simply increases or decreases by one rather than using typical recommender/linear regression/clustering/etc. algorithms. Started with simple functionality tests, i.e. test likelihood of recommendation increases given a purchase.
+Going with a TDD approach for creating a successive based recommender. 
+Currently likelihood simply increases or decreases by one rather than using typical recommender/linear regression/clustering/etc. algorithms. 
+Started with simple functionality tests, i.e. test likelihood of recommendation increases given a purchase.
+Copied and pasted classes from POCs. I will need to copy and paste the tests I guess.
 
 16/04
+Drafted out how user history and inventory data will be fed into the system.
+Added tests and functionality for getting recommendations on multiple purchases for a user with fake inventory and user history data.
 
 
 19/04
-
+Making final entity classes and flow changes.
+Conflicted using Item class rather than String as this will increase memory usage but cannot think of easier way to store properties.
+Adding property recommender tests. Properties are maps which is not very memory-efficient but cannot think of decent alternative to something like a Python dictionary.
 
 23/04
-
+Worked on logic to determine item similarity based on properties. Again, following TDD principles of implementing the simplest thing without gold-plating so it is simply a mean average of shared properties without any weighting.
 
 26/04
+Adding functionality to read properties from data file.
+Calculating cosine similarity for items given said properties.
 
 
 30/04
-
+Not necessarily seeing why properties need to be a map. Given the number of properties that are being used and the fact that transforming the map to a properties vector isn't necessarily simple, trying out using a boolean array which should be simpler to operate with.
 
 03/05
+Adding hybrid recommender utilizing both successive recommender and property based recommender. Not entirely sure how this should work but simply have used multiplication of the recommender datasets for the time being.
+
+
+07/05
+Boolean arrays for properties was causing unnecessary conversion when getting average of property similarities for items so changed to int. However, still needed to cast int to double when performing math against the recommender dataset, which is in doubles. Have changed int to doubles now. Would be good to abstract this if possible, e.g. with Number object but again this is unnecessary memory usage and makes operations using matrix libraries more difficult.
+
+
+10/05
+Writing tests against functionality is showing that the Recommender returning a likelihood does not exactly make sense. As a user, I don't want to get a likelihood of a given item, I want to get a recommendation. Refactored recommender to go through items and provide a recommendation.
+
+14/05
+Adding entity generation in preparation for E2E tests.
+
+07/06
+Adding performance tests for recommenders. Not sure how long I should expect recommenders to run/how fast it should be. However, I don't want to wait for ages running tests so just putting what I can personally tolerate. They don't pass.
+
+21/05
+Trying to optimise where possible both by saving some memory and looking at possible areas that have an unnecessarily large Big O notation.
+
+04/06
+Still can't pass performance tests. Looking at where I can replace double[][] arrays with EJML.
+
+07/06
+Not working so swapping out EJML with OjAlgo to see if this works. It does but the HybridRecommender is still an issue.
+
+28/06
+Debugging through performance issues shows number of properties per item is impacting property based recommender generation time. By itself, it's fine, but when creating the hybrid recommender and performing mathematical functions over the properties is taking too long. Performance tests passing.
+
+02/07
+Want to add tTests to verify hybrid recommender. Didn't think about it but the hybrid recommender needs something to compare to, i.e. compare the recommender to random performance. Writing untrained recommender.
+
+
+05/07
+Performance tests seem to be failing again.
+Now attempting to replace double[], i.e. vectors with OjAlgo representations to see if this helps. Still having trouble.
+
+
+09/07
+Realized when I switched computers that tests are passing again. After trying to think why this would be, it turns out that the Java versions are different. The performance tests are passing on Java 8 but not Java 10.
+
+12/07
+Wanting to simplify vector and matrix operations so reverting changes that don't seem necessary while running performance tests in parallel.
+
+16/07
+Adding tests using real data for successive purchases. I don't have access to real data excepting my own so this data is limited. Other data would bring potential issues with PII/DPA anyway.
+
+19/07
+Trying to make tests faster as waiting around is quite boring. Refactoring UserHistory service and avoiding collections where arrays can work.
+
+23/07
+Writing hybrid recommender E2E tests with real data. It's a bit complicated but can refactor later. Taking some time to figure out tTest implementation.
+
+27/07
+E2E test written but not passing. After a lot of time trying to figure out what's wrong in the hybrid recommender, adding more tests to dependent recommenders to see where the problem lies.
+
+06/08
+Struggling still so now trying weights which I know as a method which can help train a recommender. Didn't account for this in the design however so needs some refactoring.
+
+09/08
+Trying to hardcode weights and explore something that seems good but not working. Writing 'trainer' which generates recommenders with different weights, iterating over them, and finding one that passes the tTest. Made the weight changes to the sub-recommenders but not really knowing if this is required for either or both. Not really sure if weight should be provided or randomly generated within a given range either.
+
+13/08
+Noticed issues with the dataset that successive recommender was having so tried out sigmoid function to 'normalize' matrix values. tTest is now passing.
+
+16/08
+Actually, after refactoring and rerunning tests it seems tTest sometimes passes - it is not consistent. Expanding on logic to generate recommenders with appropriate weights to see if this helps. Still continuing to play with different weight ranges, if not weights now.
+
+
+20/08
+After adding more tests to verify the trainer is working, found bug in successive recommender in which registrations of items were not properly populating the matrix. Honestly, this shows how difficult it is to read the logic of the matrix but I think this would not be helped in any other language and can't see that other examples I have seen of matrix manipulation is easier to read.
+
+27/08
+This is taking too long so I have decided to try running an 'E2E' test on a subset of the data and see if this helps debug the problem.
+
+03/09
+Not consistently getting a good recommender but coming to the end of the implementation phase and I am still missing the milestone in which I need to produce a CLI so this can actually be used by a user. Banging out the code for Main but this is essentially untested and definitely not a TDD approach.
+
+09/09
+Bothered my lack of TDD in the Main method at current so did some refactoring where methods were shared between different classes and Main which at least makes things tidier.
+
+13/09
+Debugging E2E based on subset of real data has helped see more problems with the successive collaborative recommender. This probably means I missed something in unit tests. Ideally, this would be covered by new unit tests at least but I need to get onto the final documentation so haven't looked at this yet.
+
+17/09
+
 
