@@ -187,22 +187,36 @@ Noticed issues with the dataset that successive recommender was having so tried 
 16/08
 Actually, after refactoring and rerunning tests it seems tTest sometimes passes - it is not consistent. Expanding on logic to generate recommenders with appropriate weights to see if this helps. Still continuing to play with different weight ranges, if not weights now.
 
-
 20/08
 After adding more tests to verify the trainer is working, found bug in successive recommender in which registrations of items were not properly populating the matrix. Honestly, this shows how difficult it is to read the logic of the matrix but I think this would not be helped in any other language and can't see that other examples I have seen of matrix manipulation is easier to read.
 
-27/08
+23/08
 This is taking too long so I have decided to try running an 'E2E' test on a subset of the data and see if this helps debug the problem.
 
-03/09
-Not consistently getting a good recommender but coming to the end of the implementation phase and I am still missing the milestone in which I need to produce a CLI so this can actually be used by a user. Banging out the code for Main but this is essentially untested and definitely not a TDD approach.
+27/08
+Not consistently getting a good recommender but coming to the end of the implementation phase and I am still missing the milestone in which I need to produce a CLI so this can actually be used by a user. 
+Banging out the code for Main but this is essentially untested and definitely not a TDD approach.
 
-09/09
+03/09
 Bothered my lack of TDD in the Main method at current so did some refactoring where methods were shared between different classes and Main which at least makes things tidier.
 
+09/09
+Debugging E2E based on subset of real data has helped see more problems with the successive collaborative recommender. 
+This probably means I missed something in unit tests. 
+Ideally, this would be covered by new unit tests at least but I need to get onto the final documentation so haven't looked at this yet.
+
 13/09
-Debugging E2E based on subset of real data has helped see more problems with the successive collaborative recommender. This probably means I missed something in unit tests. Ideally, this would be covered by new unit tests at least but I need to get onto the final documentation so haven't looked at this yet.
+Finally moving onto documentation now but now very limited on time.
+Yes, I should have stuck with the timetable but wanted to get recommender working.
+Went over handbook for what is required as well as previous e-mails with Goran.
+Sent e-mail clarifying documentation.
 
 17/09
+Goran came up with clarification regarding unexpected documentation of 15k.
+Not sure about this.
+Communicated on clarity but thinking of requesting extension.
 
-
+19/09
+Goran had asked for report to the examiners draft to check if the documentation I have is near to sufficient (I assume).
+I postponed responding as I do not have this draft and wanted to produce something first.
+Didn't produce anything of significance so decided to e-mail anyway as well as to explore if an extension is possible.
