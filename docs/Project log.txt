@@ -11,10 +11,10 @@ Will keep it simple as possible but there is potential for expansion
 
 20/11
 Began research for core algorithm
-Beyond different techniques based on different data sources, there is a vast number of techniques to implement these. Additionally, ther is a known lack of consistent measurements for success.
+Beyond different techniques based on different data sources, there is a vast number of techniques to implement these. Additionally, there is a known lack of consistent measurements for success.
 
 23/11
-Unsure of additonal 'bureaucratic' steps at the moment. Have provided project proposal and e-mail of confirmation from Goran but no formal e-mail/sign off to continue work. Following up.
+Unsure of additional 'bureaucratic' steps at the moment. Have provided project proposal and e-mail of confirmation from Goran but no formal e-mail/sign off to continue work. Following up.
 Started Project Brief document to expand on Project Proposal and mapped out planned documentation of work against timetable.
 Still no concrete concept of underlying algorithm but should be better when detailing background research in Project Brief.
 
@@ -48,7 +48,7 @@ Completed POC data processing without dependencies and can thus compare architec
 Moved onto creating similarity/distance checks with the cosine metric. Developing the matrix methods now also means that these can be compared to available libraries.
 
 19/02
-Created some math functions for matrix mathematics to support distance algorithms. Unfortunate to do them without existing libraries, e.g. scipy/Apache Common Math. In terms of the latter, some but not all functionalities required are prsent. Can performance test for comparison.
+Created some math functions for matrix mathematics to support distance algorithms. Unfortunate to do them without existing libraries, e.g. scipy/Apache Common Math. In terms of the latter, some but not all functionalities required are present. Can performance test for comparison.
 
 22/02
 Still creating matrix math functions. Writing the methods without using existing libraries is proving difficult. I am essentially just copying scipy code which is taking a while to understand. Also running Python math functions to assert my Java implementation is correct. Makes me wish I was using Python but know that this tends to lead me to write unreadable code.
@@ -220,3 +220,6 @@ Communicated on clarity but thinking of requesting extension.
 Goran had asked for report to the examiners draft to check if the documentation I have is near to sufficient (I assume).
 I postponed responding as I do not have this draft and wanted to produce something first.
 Didn't produce anything of significance so decided to e-mail anyway as well as to explore if an extension is possible.
+
+24/09
+Requested a two week extension but actually I will be on a business trip on the second week. Anyway, will see what can be done. Nothing is necessarily difficult so far, just word count and time constraints.

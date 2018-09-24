@@ -32,6 +32,7 @@ public class SuccessiveCollaborativeRecommender extends ItemBasedRecommender {
             for (final String prevItem : previous) {
                 final int prevItemIdx = getDataSet().getIndex(prevItem);
                 final double[] prevItemLikelihoods = getDataSet().getData().getRow(prevItemIdx);
+
                 for (int i = 0; i < prevItemLikelihoods.length; i++) {
                     double likelihood = prevItemLikelihoods[i];
 
