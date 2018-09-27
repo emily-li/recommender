@@ -19,36 +19,47 @@ Started Project Brief document to expand on Project Proposal and mapped out plan
 Still no concrete concept of underlying algorithm but should be better when detailing background research in Project Brief.
 
 27/11
-Continued research on data types for information filtering. Progress slower than desired. Difficult to quantify what I have already quantified for some grating reason. Cross-domain filtering may provide ideas for categorising products.
+Continued research on data types for information filtering. 
+Progress slower than desired. Difficult to quantify what I have already quantified for some grating reason. 
+Cross-domain filtering may provide ideas for categorising products.
 
 18/12
-Research still ongoing. Have completed desired background overview. Given this overview, should be able to analyse project problem and brainstorm technical solution.
+Research still ongoing. Have completed desired background overview. 
+Given this overview, should be able to analyse project problem and brainstorm technical solution.
 
 01/01
-Project Brief keeps expanding but can move sections to Functional Requirements and Technical Design. Found Amazon papers on item-to-item CF which should have parallels to the project's timed sequence based approach.
-Broke down project deliverables to a few achievable milestones similar to first year project. Additionally put emphasis on test time and automatic generation of test sets to counter possibility of insufficient testing of training as met in the first project.
+Project Brief keeps expanding but can move sections to Functional Requirements and Technical Design. 
+Found Amazon papers on item-to-item CF which should have parallels to the project's timed sequence based approach.
+Broke down project deliverables to a few achievable milestones similar to first year project. 
+Additionally put emphasis on test time and automatic generation of test sets to counter possibility of insufficient testing of training as met in the first project.
 
 04/01
-Completed initial documentation excluding Technical Design. Have allocated 2 months, which sounds like a long time for one document but I believe it is appropriate as it also covers POC implementation.
+Completed initial documentation excluding Technical Design. 
+Have allocated 2 months, which sounds like a long time for one document but I believe it is appropriate as it also covers POC implementation.
 Documentation is currently lacking in pictures... may be able to introduce some light level designs as POCs give some light. Ambiguous at the moment due to variety of possible implementations.
 
 08/01
-Separated processing of RS into online and offline components. POC of model-based CF started to assist technical design.
+Separated processing of RS into online and offline components. 
+POC of model-based CF started to assist technical design.
 
 25/01
 Developing model-based CF as POC. Did not previously consider data-related dependencies, e.g. Spark dataframes to emulate scipy/R-like capabilities but should be able to explore these with this or some from POC to see what is more performant. Currently just using matrix arrays, e.g. String[][]
 
 01/02
-Was trying to get through the POC quickly and cover various recommender algorithms. However, architectural issues are hard to ignore and require focus. Hopefully should be a one-off for the first POC.
+Was trying to get through the POC quickly and cover various recommender algorithms. However, architectural issues are hard to ignore and require focus. 
+Hopefully should be a one-off for the first POC.
 
 05/02
 Completed POC data processing without dependencies and can thus compare architecture and performance with available libraries.
 
 16/02
-Moved onto creating similarity/distance checks with the cosine metric. Developing the matrix methods now also means that these can be compared to available libraries.
+Moved onto creating similarity/distance checks with the cosine metric. 
+Developing the matrix methods now also means that these can be compared to available libraries.
 
 19/02
-Created some math functions for matrix mathematics to support distance algorithms. Unfortunate to do them without existing libraries, e.g. scipy/Apache Common Math. In terms of the latter, some but not all functionalities required are present. Can performance test for comparison.
+Created some math functions for matrix mathematics to support distance algorithms. 
+Unfortunate to do them without existing libraries, e.g. scipy/Apache Common Math. In terms of the latter, some but not all functionalities required are present. 
+Can performance test for comparison.
 
 22/02
 Still creating matrix math functions. Writing the methods without using existing libraries is proving difficult. I am essentially just copying scipy code which is taking a while to understand. Also running Python math functions to assert my Java implementation is correct. Makes me wish I was using Python but know that this tends to lead me to write unreadable code.
@@ -63,28 +74,36 @@ Similarity checks written so now writing functions to calculate the error/RMSE.
 Adding SVD POC for memory-based model.
 
 08/03
-Really tried to implement SVD but now this is at a stage where this seems to complex to imitate. Creating simplified memory-based predictor - This also has shown some matrix methods were not implemented correctly in testing so updated.
+Really tried to implement SVD but now this is at a stage where this seems to complex to imitate. 
+Creating simplified memory-based predictor - This also has shown some matrix methods were not implemented correctly in testing so updated.
 
 12/03
-Investigated libraries that could do matrix math better/take the pain of writing it myself. Wrote simple methods for multiplication and normalising matrices for matrix library comparison.
+Investigated libraries that could do matrix math better/take the pain of writing it myself. 
+Wrote simple methods for multiplication and normalising matrices for matrix library comparison.
 
 15/03
-Added more complex methods from POC to comparison repo. However, some methods don't exist in the matrix libraries. Tried searching for alternatives but still could not find so needed to add own implementation using these libraries. 
+Added more complex methods from POC to comparison repo. However, some methods don't exist in the matrix libraries. 
+Tried searching for alternatives but still could not find so needed to add own implementation using these libraries. 
 
 19/03
-Added performance tests. Did similar logic for first project so fairly familiar with syntax. Creating tests also helps explore how I could approach abstracting the library through some interface. Some results could be skewed because of the methods that I wrote utilising libraries as they are not 'purely' belonging to the library, i.e. I may have written bad code that makes the library seem worse than it is.
+Added performance tests. 
+Did similar logic for first project so fairly familiar with syntax. Creating tests also helps explore how I could approach abstracting the library through some interface. Some results could be skewed because of the methods that I wrote utilising libraries as they are not 'purely' belonging to the library, i.e. I may have written bad code that makes the library seem worse than it is.
 
 22/03
-After analysing the results, added some optimisations to normalisation. Inclined to use EJML - Spent a lot of time trying to figure out how Python methods could be written in Java but EJML's evaluative language could help ease this pain. But not used to using it so might instead bring more complexity. OjAlgo is meant to be better but can't see that it is. May be due to dataset size or my computer's specs.
+After analysing the results, added some optimisations to normalisation. 
+Inclined to use EJML - Spent a lot of time trying to figure out how Python methods could be written in Java but EJML's evaluative language could help ease this pain. But not used to using it so might instead bring more complexity. 
+OjAlgo is meant to be better but can't see that it is. May be due to dataset size or my computer's specs.
 
 26/03
 Updated technical documentation with analysis and have decided to go ahead with EJML keeping in mind that tests may show I might need to swap it out for some other library.
 
 29/03
-Struggling to figure out the algorithm for the recommender despite the POCs. I know how to implement information filtering but not necessarily how to apply it or combine these models. I am still looking up research and reading through previous research that I have found.
+Struggling to figure out the algorithm for the recommender despite the POCs. I know how to implement information filtering but not necessarily how to apply it or combine these models. 
+I am still looking up research and reading through previous research that I have found.
 
 05/04
-Still not clear on the specifics of the algorithm I want to use. However, not sure if this is the approach I want to take anyway. Specifying an algorithm at this stage essentially locks in the pseudo-code which doesn't seem very TDD. I have added a simple way that the algorithm can work and how two models can interact with each other to achieve the problem but have avoided specifics so these should hopefully be explored when doing TDD on functionality, especially as I plan on writing E2E tests early on.
+Still not clear on the specifics of the algorithm I want to use. However, not sure if this is the approach I want to take anyway. Specifying an algorithm at this stage essentially locks in the pseudo-code which doesn't seem very TDD. 
+I have added a simple way that the algorithm can work and how two models can interact with each other to achieve the problem but have avoided specifics so these should hopefully be explored when doing TDD on functionality, especially as I plan on writing E2E tests early on.
 Also, now moving into April so want to stop Technical Design and start implementation. May be rushed decision but I also do not see benefit for further investigation.
 
 09/04
@@ -120,11 +139,13 @@ Calculating cosine similarity for items given said properties.
 Not necessarily seeing why properties need to be a map. Given the number of properties that are being used and the fact that transforming the map to a properties vector isn't necessarily simple, trying out using a boolean array which should be simpler to operate with.
 
 03/05
-Adding hybrid recommender utilizing both successive recommender and property based recommender. Not entirely sure how this should work but simply have used multiplication of the recommender datasets for the time being.
+Adding hybrid recommender utilising both successive recommender and property based recommender. 
+Not entirely sure how this should work but simply have used multiplication of the recommender datasets for the time being.
 
 
 07/05
-Boolean arrays for properties was causing unnecessary conversion when getting average of property similarities for items so changed to int. However, still needed to cast int to double when performing math against the recommender dataset, which is in doubles. Have changed int to doubles now. Would be good to abstract this if possible, e.g. with Number object but again this is unnecessary memory usage and makes operations using matrix libraries more difficult.
+Boolean arrays for properties was causing unnecessary conversion when getting average of property similarities for items so changed to int. However, still needed to cast int to double when performing math against the recommender dataset, which is in doubles. Have changed int to doubles now. 
+Would be good to abstract this if possible, e.g. with Number object but again this is unnecessary memory usage and makes operations using matrix libraries more difficult.
 
 
 10/05
@@ -134,7 +155,9 @@ Writing tests against functionality is showing that the Recommender returning a 
 Adding entity generation in preparation for E2E tests.
 
 07/06
-Adding performance tests for recommenders. Not sure how long I should expect recommenders to run/how fast it should be. However, I don't want to wait for ages running tests so just putting what I can personally tolerate. They don't pass.
+Adding performance tests for recommenders. 
+Not sure how long I should expect recommenders to run/how fast it should be. However, I don't want to wait for ages running tests so just putting what I can personally tolerate. 
+They don't pass.
 
 21/05
 Trying to optimise where possible both by saving some memory and looking at possible areas that have an unnecessarily large Big O notation.
@@ -146,7 +169,9 @@ Still can't pass performance tests. Looking at where I can replace double[][] ar
 Not working so swapping out EJML with OjAlgo to see if this works. It does but the HybridRecommender is still an issue.
 
 28/06
-Debugging through performance issues shows number of properties per item is impacting property based recommender generation time. By itself, it's fine, but when creating the hybrid recommender and performing mathematical functions over the properties is taking too long. Performance tests passing.
+Debugging through performance issues shows number of properties per item is impacting property based recommender generation time. 
+By itself, it's fine, but when creating the hybrid recommender and performing mathematical functions over the properties is taking too long. 
+Performance tests passing.
 
 02/07
 Want to add tTests to verify hybrid recommender. Didn't think about it but the hybrid recommender needs something to compare to, i.e. compare the recommender to random performance. Writing untrained recommender.
@@ -158,7 +183,7 @@ Now attempting to replace double[], i.e. vectors with OjAlgo representations to 
 
 
 09/07
-Realized when I switched computers that tests are passing again. After trying to think why this would be, it turns out that the Java versions are different. The performance tests are passing on Java 8 but not Java 10.
+Realised when I switched computers that tests are passing again. After trying to think why this would be, it turns out that the Java versions are different. The performance tests are passing on Java 8 but not Java 10.
 
 12/07
 Wanting to simplify vector and matrix operations so reverting changes that don't seem necessary while running performance tests in parallel.
@@ -182,7 +207,7 @@ Struggling still so now trying weights which I know as a method which can help t
 Trying to hardcode weights and explore something that seems good but not working. Writing 'trainer' which generates recommenders with different weights, iterating over them, and finding one that passes the tTest. Made the weight changes to the sub-recommenders but not really knowing if this is required for either or both. Not really sure if weight should be provided or randomly generated within a given range either.
 
 13/08
-Noticed issues with the dataset that successive recommender was having so tried out sigmoid function to 'normalize' matrix values. tTest is now passing.
+Noticed issues with the dataset that successive recommender was having so tried out sigmoid function to 'normalise' matrix values. tTest is now passing.
 
 16/08
 Actually, after refactoring and rerunning tests it seems tTest sometimes passes - it is not consistent. Expanding on logic to generate recommenders with appropriate weights to see if this helps. Still continuing to play with different weight ranges, if not weights now.
@@ -223,3 +248,6 @@ Didn't produce anything of significance so decided to e-mail anyway as well as t
 
 24/09
 Requested a two week extension but actually I will be on a business trip on the second week. Anyway, will see what can be done. Nothing is necessarily difficult so far, just word count and time constraints.
+
+27/09
+Completed process analysis. If this took one week, this means that the other sections will take four more. I will need to time allocate the different sections to ensure that the report is finished.
