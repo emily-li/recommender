@@ -3,6 +3,7 @@ package com.liemily.recommender;
 import com.liemily.entity.Inventory;
 import com.liemily.entity.UserHistory;
 import com.liemily.exception.RecommenderException;
+import com.liemily.math.Calculator;
 
 import java.util.*;
 
@@ -46,7 +47,7 @@ public abstract class RecommenderTrainer {
             double trainedFalsePositives = 0;
             double trainedTruePositives = 0;
 
-            final ItemBasedRecommender untrainedRecommender = generateUntrainedRecommender();
+            final ItemBasedRecommender untrainedRecommender = new UntrainedRecommenderProvider(inventory).getRecommender(Math.random(), 1);
 
             for (final String item : inventory.getIds()) {
                 try {
@@ -73,10 +74,6 @@ public abstract class RecommenderTrainer {
             untrainedPrecisions[j] = (untrainedTruePositives / (untrainedTruePositives + untrainedFalsePositives));
             trainedPrecisions[j] = (trainedTruePositives / (trainedTruePositives + trainedFalsePositives));
         }
-    }
-
-    ItemBasedRecommender generateUntrainedRecommender() {
-        return new UntrainedRecommenderProvider(inventory).getRecommender(1.0001, 1.0002);
     }
 
     public Inventory getInventory() {
