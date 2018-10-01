@@ -1,5 +1,6 @@
 package com.liemily.math;
 
+import org.apache.commons.math3.stat.inference.TTest;
 import org.ojalgo.matrix.BasicMatrix;
 
 import java.util.Arrays;
@@ -47,27 +48,6 @@ public class Calculator {
     }
 
     public double tTest(final double[] x, final double[] y) {
-        final double xMean = Arrays.stream(x).average().orElse(0);
-        final double yMean = Arrays.stream(y).average().orElse(0);
-
-        final double xVar = getVariance(x);
-        final double yVar = getVariance(y);
-
-        final double xDiv = xVar == 0 ? 0 : xVar / x.length;
-        final double yDiv = yVar == 0 ? 0 : yVar / y.length;
-
-        final double meanDiff = xMean - yMean;
-        final double divSqrt = (xDiv + yDiv) == 0 ? 0 : Math.sqrt(xDiv + yDiv);
-        return divSqrt == 0 ? Double.NaN : meanDiff / divSqrt;
-    }
-
-    private double getVariance(double[] doubles) {
-        final double mean = Arrays.stream(doubles).average().orElse(0);
-
-        double tmp = 0;
-        for (final double d : doubles) {
-            tmp += Math.sqrt(Math.abs(d - mean));
-        }
-        return tmp == 0 ? 0 : tmp / (doubles.length - 1);
+        return Math.abs(new TTest().homoscedasticTTest(x, y));
     }
 }
