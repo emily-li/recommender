@@ -1,3 +1,0 @@
-
-Properties for these items are represented in doubles. This is a simple way of representing properties as either present or not present, again avoiding maps. This could be achieved with a boolean array but a double array is chosen to avoid conversions to double arrays when this array needs to be used for matrix manipulations, e.g. multiplication with other double array/matrices. As the property double is not exposed to the user, it is not considered necessary to have a more explicit representation of properties.
-

@@ -10,6 +10,16 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * The HybridRecommender is the main recommender required for the app.
+ *
+ * The main method instantiates all classes required for the HybridRecommender, including
+ * inventory, user histories, auxiliary recommenders to the successive recommender, the successive recommender,
+ * and finally the HybridRecommender.
+ *
+ * It then starts the HybridRecommender in a loop to constantly provide recommendations
+ * as the recommender stores new purchases in its history.
+ */
 public class RecommenderApp {
     public static void main(String[] args) throws Exception {
         if (args.length != 2) {
