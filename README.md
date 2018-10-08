@@ -36,12 +36,17 @@ mvn clean package
 ```
 java -jar <recommenderJar> <inventoryFileLocation> <userHistoriesFileLocation>
 ``` 
-e.g.
-```
-java -jar target/recommender-1.0.0.jar src/test/resources/hybridE2EInventory.txt src/test/resources/hybridE2EUserHistories.txt
-```
 3. Input
-The input should be a valid item from the inventory file provided.
+The input should be a valid item from the inventory file provided
+
+### Example usage
+```
+➜  recommender git:(master) ✗ java -jar target/recommender-1.0.0.jar src/test/resources/hybridE2EInventory.txt src/test/resources/hybridE2EUserHistories.txt
+Awaiting input of newly registered inventory item
+SteelSeries 5H v2 Black Headset with Microphone
+Next recommended item is: Breville VKJ666 Polished S/S Jug Kettle
+Awaiting input of newly registered inventory item
+```
 
 ## Tests
 1 . Unit tests
